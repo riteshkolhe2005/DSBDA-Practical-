@@ -1,0 +1,297 @@
+DSBDA Viva Preparation – Practical 10 (Data Visualization III)
+
+This PDF is prepared from your uploaded DSBDA Practical 10 notebook. The practical mainly focuses on advanced visualization techniques, data interpretation, and extracting insights from graphs and plots.
+
+Topics Covered
+
+• Advanced Data Visualization
+
+• Line Plot
+
+• Bar Plot
+
+• Scatter Plot
+
+• Box Plot
+
+• Heatmap
+
+• Pairplot
+
+• Distribution Analysis
+
+• Correlation Analysis
+
+• Expected Viva Questions
+
+Important Functions Used
+
+Function Purpose
+
+plt.plot() Creates line graph
+
+sns.barplot() Creates bar plot
+
+plt.scatter() Creates scatter plot
+
+sns.boxplot() Creates box plot
+
+sns.heatmap() Creates heatmap
+
+sns.pairplot() Shows pairwise relationships
+
+sns.histplot() Plots histogram distribution
+
+plt.xlabel() Sets x-axis label
+
+plt.ylabel() Sets y-axis label
+
+plt.title() Adds graph title
+
+plt.legend() Displays graph legend
+
+df.corr() Calculates correlation matrix
+
+Important Concepts
+
+What is Data Visualization?
+
+Data visualization graphically represents information for analysis and interpretation.
+
+Line Plot
+
+Line plot shows trends or changes over time.
+
+Bar Plot
+
+Bar plot compares categorical values using bars.
+
+Scatter Plot
+
+Scatter plot shows relationship between variables.
+
+Box Plot
+
+Box plot identifies spread, quartiles, and outliers.
+
+Heatmap
+
+Heatmap visually represents correlation values using colors.
+
+Pairplot
+
+Pairplot analyzes relationships among multiple features.
+
+Correlation
+
+Correlation measures relationship strength between variables.
+
+Outliers
+
+Outliers are abnormal values significantly different from rest of data.
+
+Correlation Interpretation
+
+Correlation Value Meaning
+
++1 Perfect positive correlation
+
+0 No correlation
+
+-1 Perfect negative correlation
+
+Expected Viva Questions with Answers
+
+Q. What is data visualization?
+
+Ans. Data visualization graphically represents data for easier understanding.
+
+Q. What is line plot?
+
+Ans. Line plot shows trends and changes over time.
+
+Q. What is bar plot?
+
+Ans. Bar plot compares categorical values.
+
+Q. What is scatter plot?
+
+Ans. Scatter plot shows relationship between variables.
+
+Q. What is box plot?
+
+Ans. Box plot identifies spread and outliers.
+
+Q. What is heatmap?
+
+Ans. Heatmap displays correlation values using colors.
+
+Q. What is pairplot?
+
+Ans. Pairplot shows pairwise relationships between features.
+
+Q. What is correlation?
+
+Ans. Correlation measures relationship strength between variables.
+
+Q. What are outliers?
+
+Ans. Outliers are extreme abnormal values.
+
+Q. What does df.corr() do?
+
+Ans. It calculates correlation matrix.
+
+Q. Difference between line plot and bar plot?
+
+Ans. Line plot shows trends while bar plot compares categories.
+
+Q. Why are titles and labels important?
+
+Ans. They improve readability and interpretation.
+
+Q. What is skewness?
+
+Ans. Skewness measures asymmetry in distribution.
+
+Q. Why use pairplot?
+
+Ans. Pairplot helps analyze relationships among variables.
+
+Q. Why is visualization important?
+
+Ans. Visualization helps understand data patterns quickly.
+
+Important Tricky Viva Questions
+
+• Difference between histogram and bar plot?
+
+• Can correlation imply causation?
+
+• How are outliers detected in box plot?
+
+• Difference between heatmap and pairplot?
+
+• Why use seaborn instead of matplotlib?
+
+• What does positive skewness indicate?
+
+• Why are legends important in graphs?
+
+• How do visualizations help in decision making?
+
+Quick Revision Notes
+
+• Line plot shows trends.
+
+• Bar plot compares categories.
+
+• Scatter plot shows relationships.
+
+• Box plot identifies outliers.
+
+• Heatmap displays correlations.
+
+• Pairplot shows multiple relationships.
+
+• Correlation ranges from -1 to +1.
+
+• Visualization improves data understanding.
+
+========================================
+### PRACTICAL CODE ###
+========================================
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+df=pd.read_csv("Iris.csv")
+df.tail()
+#df['Species'].unique()
+df.isnull().sum()
+df.dtypes
+df.info()
+df.describe()
+'' 'Iris-setosa' 'Iris-virginica' 'Iris-versicolor'
+sns.histplot(data=df, x="Species")
+sns.histplot(data=df, x="SepalLengthCm")
+#Average sepallength lies between 5 -6
+df['SepalLengthCm'].mean()
+sns.histplot(data=df, x="PetalLengthCm")
+#Average sepalwidth lies between 4 -6
+df['PetalLengthCm'].mean()
+sns.histplot(data=df, x="SepalWidthCm")
+#Average sepalwidth lies between 2.5 -3.5
+df['SepalWidthCm'].mean()
+sns.histplot(data=df, x="PetalWidthCm")
+#Average petalwidth lies between 1 -2
+df['PetalWidthCm'].mean()
+sns.boxplot(x=df['SepalLengthCm'])
+#Median lies between 5.5 to 6
+sns.boxplot(x=df['PetalLengthCm'])
+#Median lies between 4 to 5
+sns.boxplot(x=df['SepalWidthCm'])
+sns.boxplot(x=df['PetalWidthCm'])
+#Median lies between 1 to 1.5
+Q1=df['SepalWidthCm'].quantile(0.25)
+Q3=df['SepalWidthCm'].quantile(0.75)
+Q1,Q3
+IQR=Q3-Q1
+lower_limit=Q1-1.5*IQR
+upper_limit=Q3+1.5*IQR
+df[(df['SepalWidthCm']<lower_limit)|(df['SepalWidthCm']>upper_limit)]
+df_without_outliers=df[(df['SepalWidthCm']>lower_limit)&(df['SepalWidthCm']<upper_limit)]
+df_without_outliers
+sns.boxplot(x=df_without_outliers['SepalWidthCm'])
+features = df.iloc[:, 1:5]
+target = df.iloc[:, -1]
+target.head()
+print('The Initial DataFrame Contained %d Rows And %d Columns'%(df.shape))
+print('The Features Matrix Contains %d Rows And %d Columns'%(features.shape))
+print('The Target Vector Contains %d Rows And %d Columns'%(np.array(target).reshape(-1, 1).shape))
+
+========================================
+### CODE EXPLANATION ###
+========================================
+
+[import pandas as pd] : Imports pandas library for data manipulation and reading datasets.
+[import numpy as np] : Imports numpy library for numerical calculations.
+[import matplotlib.pyplot as plt] : Imports matplotlib library for data visualization.
+[import seaborn as sns] : Imports seaborn library for advanced data visualization.
+[df=pd.read_csv("Iris.csv")] : Reads the CSV dataset into a pandas DataFrame.
+[df.tail()] : Displays the last 5 rows of the dataset.
+[df.isnull().sum()] : Checks for missing (null) values in the dataset.
+[df.dtypes] : Shows the data type of each column in the dataset.
+[df.info()] : Executes specific operation.
+[df.describe()] : Generates a statistical summary of the dataset (mean, std, min, max, etc.).
+['' 'Iris-setosa' 'Iris-virginica' 'Iris-versicolor'] : Executes specific operation.
+[sns.histplot(data=df, x="Species")] : Creates a histogram to visualize the distribution of numerical data.
+[sns.histplot(data=df, x="SepalLengthCm")] : Creates a histogram to visualize the distribution of numerical data.
+[df['SepalLengthCm'].mean()] : Executes specific operation.
+[sns.histplot(data=df, x="PetalLengthCm")] : Creates a histogram to visualize the distribution of numerical data.
+[df['PetalLengthCm'].mean()] : Executes specific operation.
+[sns.histplot(data=df, x="SepalWidthCm")] : Creates a histogram to visualize the distribution of numerical data.
+[df['SepalWidthCm'].mean()] : Executes specific operation.
+[sns.histplot(data=df, x="PetalWidthCm")] : Creates a histogram to visualize the distribution of numerical data.
+[df['PetalWidthCm'].mean()] : Executes specific operation.
+[sns.boxplot(x=df['SepalLengthCm'])] : Creates a box plot to visualize data distribution and detect outliers.
+[sns.boxplot(x=df['PetalLengthCm'])] : Creates a box plot to visualize data distribution and detect outliers.
+[sns.boxplot(x=df['SepalWidthCm'])] : Creates a box plot to visualize data distribution and detect outliers.
+[sns.boxplot(x=df['PetalWidthCm'])] : Creates a box plot to visualize data distribution and detect outliers.
+[Q1=df['SepalWidthCm'].quantile(0.25)] : Calculates the quantile used for finding outliers.
+[Q3=df['SepalWidthCm'].quantile(0.75)] : Calculates the quantile used for finding outliers.
+[Q1,Q3] : Executes specific operation.
+[IQR=Q3-Q1] : Assigns the value to the variable 'IQR'.
+[lower_limit=Q1-1.5*IQR] : Assigns the value to the variable 'lower_limit'.
+[upper_limit=Q3+1.5*IQR] : Assigns the value to the variable 'upper_limit'.
+[df[(df['SepalWidthCm']<lower_limit)|(df['SepalWidthCm']>upper_limit)]] : Executes specific operation.
+[df_without_outliers=df[(df['SepalWidthCm']>lower_limit)&(df['SepalWidthCm']<upper_limit)]] : Assigns the value to the variable 'df_without_outliers'.
+[df_without_outliers] : Executes specific operation.
+[sns.boxplot(x=df_without_outliers['SepalWidthCm'])] : Creates a box plot to visualize data distribution and detect outliers.
+[features = df.iloc[:, 1:5]] : Selects specific rows and columns using index-based slicing.
+[target = df.iloc[:, -1]] : Selects specific rows and columns using index-based slicing.
+[target.head()] : Displays the first 5 rows of the dataset.
+[print('The Initial DataFrame Contained %d Rows And %d Columns'%(df.shape))] : Returns the dimensions (number of rows and columns) of the dataset.
+[print('The Features Matrix Contains %d Rows And %d Columns'%(features.shape))] : Returns the dimensions (number of rows and columns) of the dataset.
+[print('The Target Vector Contains %d Rows And %d Columns'%(np.array(target).reshape(-1, 1).shape))] : Returns the dimensions (number of rows and columns) of the dataset.

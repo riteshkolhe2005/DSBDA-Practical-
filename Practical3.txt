@@ -1,0 +1,249 @@
+DSBDA Viva Preparation – Practical 3 (Descriptive Analysis)
+
+This PDF is prepared from your uploaded DSBDA Practical 3 notebook. The practical mainly focuses on descriptive statistics, data analysis, summary measures, and interpretation of dataset statistics.
+
+Topics Covered
+
+• Descriptive Analysis
+
+• Measures of Central Tendency
+
+• Mean, Median, Mode
+
+• Standard Deviation
+
+• Variance
+
+• Quartiles and Percentiles
+
+• Data Distribution
+
+• Skewness
+
+• Outlier Detection
+
+• Expected Viva Questions
+
+Important Functions Used
+
+Function Purpose
+
+df.describe() Generates statistical summary
+
+df.mean() Calculates average value
+
+df.median() Calculates middle value
+
+df.mode() Finds most frequent value
+
+df.std() Calculates standard deviation
+
+df.var() Calculates variance
+
+df.min() Finds minimum value
+
+df.max() Finds maximum value
+
+df.quantile() Calculates quartiles/percentiles
+
+df.skew() Measures skewness of data
+
+value_counts() Counts frequency of values
+
+isnull() Checks missing values
+
+Important Concepts
+
+What is Descriptive Analysis?
+
+Descriptive analysis summarizes and describes important features of a dataset.
+
+Mean
+
+Mean is the average value of observations.
+
+Median
+
+Median is the middle value after arranging data in order.
+
+Mode
+
+Mode is the most frequently occurring value.
+
+Variance
+
+Variance measures spread of data from the mean.
+
+Standard Deviation
+
+Standard deviation measures dispersion of data points from mean.
+
+Quartiles
+
+Quartiles divide data into four equal parts.
+
+Skewness
+
+Skewness measures asymmetry of data distribution.
+
+Outliers
+
+Outliers are extreme values significantly different from other observations.
+
+Important Statistical Formulas
+
+Mean: Mean = Sum of Observations / Number of Observations
+
+Variance: σ² = Σ(x - µ)² / N
+
+Standard Deviation: σ = √Variance
+
+Expected Viva Questions with Answers
+
+Q. What is descriptive analysis?
+
+Ans. Descriptive analysis summarizes dataset characteristics using statistics.
+
+Q. What is mean?
+
+Ans. Mean is average value of dataset.
+
+Q. Difference between mean and median?
+
+Ans. Mean is average while median is middle value.
+
+Q. What is mode?
+
+Ans. Mode is most frequent value.
+
+Q. What is variance?
+
+Ans. Variance measures spread of data.
+
+Q. What is standard deviation?
+
+Ans. Standard deviation measures dispersion from mean.
+
+Q. What does df.describe() do?
+
+Ans. It provides statistical summary of numerical columns.
+
+Q. What are quartiles?
+
+Ans. Quartiles divide data into four equal parts.
+
+Q. What is skewness?
+
+Ans. Skewness measures asymmetry in data distribution.
+
+Q. What are outliers?
+
+Ans. Outliers are abnormal extreme values.
+
+Q. Why is descriptive analysis important?
+
+Ans. It helps understand dataset before applying machine learning.
+
+Q. Difference between variance and standard deviation?
+
+Ans. Standard deviation is square root of variance.
+
+Q. What is percentile?
+
+Ans. Percentile indicates percentage of observations below a value.
+
+Q. What is frequency distribution?
+
+Ans. Frequency distribution shows occurrence count of values.
+
+Q. Why detect outliers?
+
+Ans. Outliers may affect analysis and model performance.
+
+Important Tricky Viva Questions
+
+• Can mean be affected by outliers?
+
+• Which measure is best for skewed data?
+
+• Difference between population variance and sample variance?
+
+• What happens if standard deviation is zero?
+
+• Why use median instead of mean sometimes?
+
+• How do quartiles help detect outliers?
+
+• What does positive skewness mean?
+
+• What is the importance of descriptive statistics in ML?
+
+Quick Revision Notes
+
+• Mean = average value.
+
+• Median = middle value.
+
+• Mode = most frequent value.
+
+• Variance measures spread.
+
+• Standard deviation is square root of variance.
+
+• Quartiles divide data into four parts.
+
+• Skewness measures asymmetry.
+
+• Outliers are extreme values.
+
+========================================
+### PRACTICAL CODE ###
+========================================
+
+import numpy as np
+import pandas as pd
+data=pd.read_csv("iris.csv")
+data.describe()
+data.SepalLengthCm.unique() 
+# This returns all unique/distinct values present in the SepalLengthCm column.
+data.groupby(data.SepalLengthCm).count() 
+# This groups the dataset by SepalLengthCm and counts the number of non-null values in each column for every group.
+data.groupby(data.SepalWidthCm).min() 
+# This groups the dataset based on SepalWidthCm values and finds the minimum value of every column within each group.
+data.groupby(data.SepalWidthCm).max() 
+# This groups the dataset based on SepalWidthCm values and finds the maximum value of every column within each group.
+data.groupby('SepalLengthCm').mean(numeric_only=True)
+# This groups the dataset by SepalLengthCm and calculates the average (mean) of all numeric columns for each group.
+data.groupby('SepalLengthCm').std(numeric_only=True)
+# This groups the dataset by SepalLengthCm and calculates the  Standard Deviation of all numeric columns for each group.
+data.dtypes
+data.groupby(data.SepalWidthCm).describe() 
+data.groupby('SepalLengthCm').std(numeric_only=True)
+data.Species.unique() 
+data.groupby(data.Species).count()
+data.groupby(data.Species).max()
+data.groupby(data.Species).mean()
+data.groupby(data.Species).std()
+
+========================================
+### CODE EXPLANATION ###
+========================================
+
+[import numpy as np] : Imports numpy library for numerical calculations.
+[import pandas as pd] : Imports pandas library for data manipulation and reading datasets.
+[data=pd.read_csv("iris.csv")] : Reads the CSV dataset into a pandas DataFrame.
+[data.describe()] : Generates a statistical summary of the dataset (mean, std, min, max, etc.).
+[data.SepalLengthCm.unique()] : Returns all unique/distinct values in a column.
+[data.groupby(data.SepalLengthCm).count()] : Groups the data based on a specific column.
+[data.groupby(data.SepalWidthCm).min()] : Groups the data based on a specific column.
+[data.groupby(data.SepalWidthCm).max()] : Groups the data based on a specific column.
+[data.groupby('SepalLengthCm').mean(numeric_only=True)] : Groups the data based on a specific column.
+[data.groupby('SepalLengthCm').std(numeric_only=True)] : Groups the data based on a specific column.
+[data.dtypes] : Shows the data type of each column in the dataset.
+[data.groupby(data.SepalWidthCm).describe()] : Generates a statistical summary of the dataset (mean, std, min, max, etc.).
+[data.groupby('SepalLengthCm').std(numeric_only=True)] : Groups the data based on a specific column.
+[data.Species.unique()] : Returns all unique/distinct values in a column.
+[data.groupby(data.Species).count()] : Groups the data based on a specific column.
+[data.groupby(data.Species).max()] : Groups the data based on a specific column.
+[data.groupby(data.Species).mean()] : Groups the data based on a specific column.
+[data.groupby(data.Species).std()] : Groups the data based on a specific column.

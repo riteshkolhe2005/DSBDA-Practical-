@@ -1,0 +1,62 @@
+Subject: Data Science and Big Data Analytics Laboratory (DSBDAL)
+DSBDAL Practical Examination List
+
+1. Data Wrangling I
+Perform data preprocessing on an open-source dataset:
+• Import required libraries
+• Load dataset from web source
+• Handle missing values
+• Describe dataset (statistics, variables, dimensions)
+• Perform data type conversion
+• Convert categorical variables to numerical
+
+2. Data Wrangling II
+Create an academic dataset and:
+• Handle missing values & inconsistencies
+• Identify outliers using any method (IQR / Z-score)
+• Apply data transformation (log, normalization, scaling)
+
+3. Descriptive Statistics
+• Compute mean, median, min, max, variance and standard deviation
+• Group data by categorical variable
+• Analyze Iris dataset statistics (species-wise comparison)
+
+4. Data Analytics I (Linear Regression)
+• Implement Linear Regression
+• Use Boston Housing Dataset
+• Predict house prices
+• Evaluate model using appropriate metrics
+
+5. Data Analytics II (Logistic Regression)
+• Perform classification on Social Network Ads dataset
+• Compute Confusion Matrix
+• Calculate: Accuracy, Error Rate, Precision, Recall
+
+6. Data Analytics III (Naïve Bayes)
+• Implement Naïve Bayes on Iris dataset
+• Compute Confusion Matrix
+• Calculate: Accuracy, Error Rate, Precision, Recall
+
+7. Text Analytics
+• Perform: Tokenization, POS Tagging, Stopword Removal, Stemming, Lemmatization
+• Compute: Term Frequency (TF), Inverse Document Frequency (IDF)
+
+8. Data Visualization I
+• Use Titanic dataset
+• Identify patterns using Seaborn
+• Plot histogram for Fare distribution
+• Analyze distribution
+• Identify skewness
+
+9. Data Visualization II
+• Use Titanic dataset
+• Plot boxplot for numeric feature
+• Compare Age vs Gender vs Survival
+• Identify outliers
+• Write observations and inferences
+
+10. Data Visualization III
+• Use Iris dataset
+• Identify feature types
+• Plot: Histograms, Boxplots
+• Compare distributions and detect outliers

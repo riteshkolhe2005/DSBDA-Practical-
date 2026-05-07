@@ -1,0 +1,288 @@
+DSBDA Viva Preparation – Practical 7 (Text Analysis)
+
+This PDF is prepared from your uploaded DSBDA Practical 7 notebook. The practical mainly focuses on text analysis, natural language processing, text preprocessing, tokenization, stopword removal, and sentiment/text handling concepts.
+
+Topics Covered
+
+• Text Analysis
+
+• Natural Language Processing (NLP)
+
+• Tokenization
+
+• Stopword Removal
+
+• Stemming
+
+• Lemmatization
+
+• Text Cleaning
+
+• Bag of Words
+
+• TF-IDF
+
+• Expected Viva Questions
+
+Important Functions Used
+
+Function Purpose
+
+word_tokenize() Splits text into words/tokens
+
+sent_tokenize() Splits text into sentences
+
+stopwords.words() Provides stopwords list
+
+PorterStemmer() Performs stemming
+
+WordNetLemmatizer() Performs lemmatization
+
+CountVectorizer() Creates Bag of Words model
+
+TfidfVectorizer() Creates TF-IDF vectors
+
+lower() Converts text to lowercase
+
+replace() Replaces characters or words
+
+re.sub() Removes unwanted text using regex
+
+fit_transform() Learns and transforms text data
+
+toarray() Converts sparse matrix into array
+
+Important Concepts
+
+What is Text Analysis?
+
+Text analysis extracts useful information from textual data.
+
+What is NLP?
+
+Natural Language Processing enables computers to understand human language.
+
+Tokenization
+
+Tokenization splits text into smaller units like words or sentences.
+
+Stopwords
+
+Stopwords are common words like 'is', 'the', 'and' that usually carry less meaning.
+
+Stemming
+
+Stemming reduces words to root form by removing suffixes.
+
+Lemmatization
+
+Lemmatization converts words into meaningful dictionary root forms.
+
+Bag of Words
+
+Bag of Words converts text into numerical frequency vectors.
+
+TF-IDF
+
+TF-IDF measures importance of words in documents.
+
+Text Cleaning
+
+Text cleaning removes punctuation, special symbols, and unwanted words.
+
+TF-IDF Formula
+
+TF-IDF Formula:
+
+TF-IDF = TF × IDF
+
+TF = Term Frequency IDF = Inverse Document Frequency
+
+Expected Viva Questions with Answers
+
+Q. What is text analysis?
+
+Ans. Text analysis extracts useful information from textual data.
+
+Q. What is NLP?
+
+Ans. NLP is a field that helps computers understand human language.
+
+Q. What is tokenization?
+
+Ans. Tokenization splits text into words or sentences.
+
+Q. What are stopwords?
+
+Ans. Stopwords are common words removed during preprocessing.
+
+Q. What is stemming?
+
+Ans. Stemming removes suffixes to obtain root words.
+
+Q. What is lemmatization?
+
+Ans. Lemmatization converts words into meaningful root forms.
+
+Q. Difference between stemming and lemmatization?
+
+Ans. Stemming may produce non-meaningful roots while lemmatization produces dictionary words.
+
+Q. What is Bag of Words?
+
+Ans. Bag of Words converts text into frequency vectors.
+
+Q. What is TF-IDF?
+
+Ans. TF-IDF measures importance of words in a document.
+
+Q. Why remove stopwords?
+
+Ans. Removing stopwords reduces unnecessary data.
+
+Q. What is CountVectorizer()?
+
+Ans. CountVectorizer creates Bag of Words representation.
+
+Q. What does fit_transform() do?
+
+Ans. It learns vocabulary and transforms text into vectors.
+
+Q. Why convert text into numerical form?
+
+Ans. Machine learning algorithms require numerical input.
+
+Q. What is sentiment analysis?
+
+Ans. Sentiment analysis identifies emotions or opinions in text.
+
+Q. Why is preprocessing important in NLP?
+
+Ans. Preprocessing improves text quality and model performance.
+
+Important Tricky Viva Questions
+
+• Why is lemmatization better than stemming?
+
+• What happens if stopwords are not removed?
+
+• Difference between CountVectorizer and TF-IDF?
+
+• Why convert text into vectors?
+
+• What is sparse matrix?
+
+• Can NLP work without preprocessing?
+
+• Why is TF-IDF preferred sometimes?
+
+• What are applications of NLP?
+
+Quick Revision Notes
+
+• NLP processes human language.
+
+• Tokenization splits text.
+
+• Stopwords are common unnecessary words.
+
+• Stemming removes suffixes.
+
+• Lemmatization gives meaningful roots.
+
+• Bag of Words creates frequency vectors.
+
+• TF-IDF measures word importance.
+
+• Text preprocessing improves NLP performance.
+
+========================================
+### PRACTICAL CODE ###
+========================================
+
+import nltk
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+from nltk.stem import PorterStemmer, WordNetLemmatizer
+from nltk import pos_tag
+from nltk.tokenize import sent_tokenize
+nltk.download('punkt')
+nltk.download('stopwords')
+nltk.download('averaged_perceptron_tagger_eng')
+nltk.download('wordnet')
+nltk.download('punkt_tab')
+text = "Natural Language Processing is amazing and helps in analyzing text data easily."
+tokenize_text = sent_tokenize(text)
+# Breaking sentence into words/tokens.
+print(tokenize_text)
+tokens = word_tokenize(text) #sentence.split(" ")
+print("Tokens:", tokens)
+# POS Tagging
+pos = pos_tag(tokens)
+# Assigns grammatical category to each word.
+print("POS Tags:", pos)
+# Tag	Meaning
+# NN	Noun
+# VB	Verb
+# JJ	Adjective
+# RB	Adverb
+# Stopword Removal
+filtered = [word for word in tokens if word.lower() not in stopwords.words('english')]
+print("After Stopword Removal:", filtered)
+# Stemming
+ps = PorterStemmer()
+stemmed = [ps.stem(word) for word in filtered]
+print("Stemmed Words:", stemmed)
+# Converts words to root form.
+# Lemmatization
+lm = WordNetLemmatizer()
+lemmatized = [lm.lemmatize(word) for word in filtered]
+print("Lemmatized Words:", lemmatized)
+# Converts words into meaningful dictionary words.
+from sklearn.feature_extraction.text import TfidfVectorizer
+# Term Frequency -> How many times a word appears in a document.
+documents = [
+    "I love machine learning",
+    "Machine learning is powerful"
+]
+# IDF ->How important or rare a word is across all documents.
+vectorizer = TfidfVectorizer()
+tfidf_matrix = vectorizer.fit_transform(documents)
+print(tfidf_matrix.toarray())
+# TF-IDF converts text into numeric importance scores.
+
+========================================
+### CODE EXPLANATION ###
+========================================
+
+[import nltk] : Executes specific operation.
+[from nltk.tokenize import word_tokenize] : Executes specific operation.
+[from nltk.corpus import stopwords] : Executes specific operation.
+[from nltk.stem import PorterStemmer, WordNetLemmatizer] : Executes specific operation.
+[from nltk import pos_tag] : Executes specific operation.
+[from nltk.tokenize import sent_tokenize] : Executes specific operation.
+[nltk.download('punkt')] : Executes specific operation.
+[nltk.download('stopwords')] : Executes specific operation.
+[nltk.download('averaged_perceptron_tagger_eng')] : Executes specific operation.
+[nltk.download('wordnet')] : Executes specific operation.
+[nltk.download('punkt_tab')] : Executes specific operation.
+[text = "Natural Language Processing is amazing and helps in analyzing text data easily."] : Assigns the value to the variable 'text'.
+[tokenize_text = sent_tokenize(text)] : Splits text into individual sentences.
+[print(tokenize_text)] : Prints the specified output.
+[tokens = word_tokenize(text) #sentence.split(" ")] : Splits a sentence into individual words/tokens.
+[print("Tokens:", tokens)] : Prints the specified output.
+[pos = pos_tag(tokens)] : Assigns parts of speech (like noun, verb) to each word.
+[print("POS Tags:", pos)] : Prints the specified output.
+[filtered = [word for word in tokens if word.lower() not in stopwords.words('english')]] : Gets a list of common words to remove from text.
+[print("After Stopword Removal:", filtered)] : Prints the specified output.
+[ps = PorterStemmer()] : Initializes a stemmer to convert words to their root form.
+[stemmed = [ps.stem(word) for word in filtered]] : Assigns the value to the variable 'stemmed'.
+[print("Stemmed Words:", stemmed)] : Prints the specified output.
+[lm = WordNetLemmatizer()] : Initializes a lemmatizer to convert words to meaningful root words.
+[lemmatized = [lm.lemmatize(word) for word in filtered]] : Assigns the value to the variable 'lemmatized'.
+[print("Lemmatized Words:", lemmatized)] : Prints the specified output.
+[from sklearn.feature_extraction.text import TfidfVectorizer] : Imports specific machine learning modules from the scikit-learn library.
+[documents = [ "I love machine learning", "Machine learning is powerful" ]] : Assigns the value to the variable 'documents'.
+[vectorizer = TfidfVectorizer()] : Converts text into numerical TF-IDF features.
+[tfidf_matrix = vectorizer.fit_transform(documents)] : Learns the parameters and transforms the data simultaneously.
+[print(tfidf_matrix.toarray())] : Prints the specified output.

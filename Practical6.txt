@@ -1,0 +1,286 @@
+DSBDA Viva Preparation – Practical 6 (Naive Bayes)
+
+This PDF is prepared from your uploaded DSBDA Practical 6 notebook. The practical mainly focuses on Naive Bayes Classification, Gaussian Naive Bayes, feature scaling, prediction, and evaluation metrics.
+
+Topics Covered
+
+• Naive Bayes Classification
+
+• Gaussian Naive Bayes
+
+• Bayes Theorem
+
+• Feature Scaling
+
+• Train Test Split
+
+• Prediction
+
+• Confusion Matrix
+
+• Accuracy, Precision, Recall
+
+• Classification Report
+
+• Expected Viva Questions
+
+Important Functions Used
+
+Function Purpose
+
+pd.read_csv() Loads dataset
+
+train_test_split() Splits dataset into training and testing data
+
+StandardScaler() Performs feature scaling
+
+fit_transform() Learns and transforms training data
+
+transform() Transforms testing data
+
+GaussianNB() Creates Gaussian Naive Bayes classifier
+
+fit() Trains Naive Bayes model
+
+predict() Predicts output labels
+
+accuracy_score() Calculates model accuracy
+
+confusion_matrix() Creates confusion matrix
+
+classification_report() Displays precision, recall, and F1-score
+
+Important Concepts
+
+What is Naive Bayes?
+
+Naive Bayes is a probabilistic supervised learning algorithm based on Bayes theorem.
+
+Why is it called Naive?
+
+Because it assumes all features are independent from each other.
+
+Gaussian Naive Bayes
+
+Gaussian Naive Bayes is used when numerical data follows normal distribution.
+
+Bayes Theorem
+
+Bayes theorem calculates probability of an event based on prior knowledge.
+
+Feature Scaling
+
+Feature scaling standardizes data for better model performance.
+
+Confusion Matrix
+
+Confusion matrix evaluates classification performance.
+
+Accuracy
+
+Accuracy is percentage of correct predictions.
+
+Precision
+
+Precision measures correctness among predicted positive values.
+
+Recall
+
+Recall measures correctly predicted actual positive values.
+
+Bayes Theorem Formula
+
+Bayes Theorem:
+
+P(A|B) = [P(B|A) × P(A)] / P(B)
+
+Where: P(A|B) = Posterior Probability P(B|A) = Likelihood P(A) = Prior Probability P(B) = Evidence
+
+Expected Viva Questions with Answers
+
+Q. What is Naive Bayes?
+
+Ans. Naive Bayes is a supervised classification algorithm based on Bayes theorem.
+
+Q. Why is it called Naive?
+
+Ans. Because it assumes feature independence.
+
+Q. What is GaussianNB()?
+
+Ans. GaussianNB() implements Gaussian Naive Bayes classifier.
+
+Q. What is Bayes theorem?
+
+Ans. Bayes theorem calculates conditional probability.
+
+Q. What is feature scaling?
+
+Ans. Feature scaling standardizes numerical features.
+
+Q. What is confusion matrix?
+
+Ans. Confusion matrix evaluates prediction performance.
+
+Q. What are TP, TN, FP, FN?
+
+Ans. True Positive, True Negative, False Positive, and False Negative.
+
+Q. What is precision?
+
+Ans. Precision measures correctness of predicted positives.
+
+Q. What is recall?
+
+Ans. Recall measures correctly identified actual positives.
+
+Q. What is F1-score?
+
+Ans. F1-score balances precision and recall.
+
+Q. What does fit() do?
+
+Ans. fit() trains the Naive Bayes classifier.
+
+Q. What does predict() do?
+
+Ans. predict() predicts output labels.
+
+Q. Difference between Naive Bayes and Logistic Regression?
+
+Ans. Naive Bayes is probability-based while Logistic Regression uses sigmoid function.
+
+Q. Can Naive Bayes work for text classification?
+
+Ans. Yes, Naive Bayes is widely used for spam detection and NLP.
+
+Q. What is overfitting?
+
+Ans. Overfitting occurs when model memorizes training data.
+
+Important Tricky Viva Questions
+
+• Why does Naive Bayes assume feature independence?
+
+• What happens if features are correlated?
+
+• Why is Naive Bayes fast?
+
+• Can Naive Bayes handle continuous data?
+
+• Difference between Gaussian, Multinomial, and Bernoulli Naive Bayes?
+
+• Why is Naive Bayes used in spam detection?
+
+• What is zero-frequency problem?
+
+• Why use StandardScaler before training?
+
+Quick Revision Notes
+
+• Naive Bayes is supervised classification algorithm.
+
+• Based on Bayes theorem.
+
+• GaussianNB handles continuous data.
+
+• Assumes feature independence.
+
+• fit() trains the model.
+
+• predict() predicts labels.
+
+• Confusion matrix evaluates predictions.
+
+• Precision, recall, and F1-score are evaluation metrics.
+
+========================================
+### PRACTICAL CODE ###
+========================================
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+data=pd.read_csv("Iris.csv")
+X=data.iloc[:,:4].values
+y = data['Species'].values
+print(data.head())
+from sklearn.model_selection import train_test_split
+# Imports function used to divide dataset.
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
+# Dataset is divided into:
+#     Training Data → used to train model
+#     Testing Data → used to test model
+from sklearn.preprocessing import StandardScaler
+sc = StandardScaler()
+# It converts data into a standard form:
+# Mean = 0
+# Standard Deviation = 1
+X_train = sc.fit_transform(X_train)
+# fit() calculates mean and standard deviation, and transform() scales the data using those values.
+X_test = sc.transform(X_test)
+# z=x-u/rho
+# transform() is used to convert the original data into scaled/standardized form using previously learned values.
+from sklearn.naive_bayes import GaussianNB
+classifier = GaussianNB()
+# This line creates a Gaussian Naïve Bayes model object.
+classifier.fit(X_train, y_train)
+# This line is used to train the Naïve Bayes model using the training dataset.
+y_pred = classifier.predict(X_test)
+# This line is used to predict the output/classes for the test dataset using the trained Naïve Bayes model.
+print(y_pred)
+from sklearn.metrics import confusion_matrix
+cm=confusion_matrix(y_test, y_pred)
+from sklearn.metrics import accuracy_score
+print("Consusion matrix: \n")
+print(cm)
+df = pd.DataFrame({'Real Values':y_test, 'Predicted Values':y_pred})
+print(df)
+from sklearn.metrics import precision_score, recall_score,accuracy_score
+m=accuracy_score(y_test,y_pred)
+print("Accuracy: {:.2f}".format(accuracy_score(y_test, y_pred)))
+# How many predictions were correct out of total predictions.
+print("Error Rate: {:.2f}".format(1 - m))
+# How many predictions were wrong out of total predictions.
+print("Precision: {:.2f}".format(precision_score(y_test, y_pred, average='micro')))
+# Out of all predicted positive values, how many were actually correct.
+print("Recall: {:.2f}".format(recall_score(y_test, y_pred, average='micro')))
+# Out of all actual positive values, how many were correctly identified.
+
+========================================
+### CODE EXPLANATION ###
+========================================
+
+[import pandas as pd] : Imports pandas library for data manipulation and reading datasets.
+[import numpy as np] : Imports numpy library for numerical calculations.
+[import matplotlib.pyplot as plt] : Imports matplotlib library for data visualization.
+[import seaborn as sns] : Imports seaborn library for advanced data visualization.
+[data=pd.read_csv("Iris.csv")] : Reads the CSV dataset into a pandas DataFrame.
+[X=data.iloc[:,:4].values] : Selects specific rows and columns using index-based slicing.
+[y = data['Species'].values] : Assigns the value to the variable 'y'.
+[print(data.head())] : Displays the first 5 rows of the dataset.
+[from sklearn.model_selection import train_test_split] : Imports specific machine learning modules from the scikit-learn library.
+[X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)] : Splits the dataset into training data and testing data.
+[from sklearn.preprocessing import StandardScaler] : Imports specific machine learning modules from the scikit-learn library.
+[sc = StandardScaler()] : Creates an object to standardize data to have a mean of 0 and standard deviation of 1.
+[X_train = sc.fit_transform(X_train)] : Learns the parameters and transforms the data simultaneously.
+[X_test = sc.transform(X_test)] : Applies the previously learned transformation to new data.
+[from sklearn.naive_bayes import GaussianNB] : Imports specific machine learning modules from the scikit-learn library.
+[classifier = GaussianNB()] : Initializes a Gaussian Naive Bayes model.
+[classifier.fit(X_train, y_train)] : Trains the model using the provided training data.
+[y_pred = classifier.predict(X_test)] : Uses the trained model to make predictions on new data.
+[print(y_pred)] : Prints the specified output.
+[from sklearn.metrics import confusion_matrix] : Imports specific machine learning modules from the scikit-learn library.
+[cm=confusion_matrix(y_test, y_pred)] : Calculates the confusion matrix to evaluate classification performance.
+[from sklearn.metrics import accuracy_score] : Imports specific machine learning modules from the scikit-learn library.
+[print("Consusion matrix: \n")] : Prints the specified output.
+[print(cm)] : Prints the specified output.
+[df = pd.DataFrame({'Real Values':y_test, 'Predicted Values':y_pred})] : Assigns the value to the variable 'df'.
+[print(df)] : Prints the specified output.
+[from sklearn.metrics import precision_score, recall_score,accuracy_score] : Imports specific machine learning modules from the scikit-learn library.
+[m=accuracy_score(y_test,y_pred)] : Calculates the accuracy of the model's predictions.
+[print("Accuracy: {:.2f}".format(accuracy_score(y_test, y_pred)))] : Calculates the accuracy of the model's predictions.
+[print("Error Rate: {:.2f}".format(1 - m))] : Prints the specified output.
+[print("Precision: {:.2f}".format(precision_score(y_test, y_pred, average='micro')))] : Calculates the precision score.
+[print("Recall: {:.2f}".format(recall_score(y_test, y_pred, average='micro')))] : Calculates the recall score.

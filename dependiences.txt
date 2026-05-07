@@ -1,0 +1,36 @@
+# ==========================================
+# DSBDA Practical Dependencies Guide
+# ==========================================
+
+# Step 1: Open your terminal or command prompt in your project folder.
+
+# Step 2: Create a virtual environment (named 'venv')
+python -m venv venv
+
+# Step 3: Activate the virtual environment
+# -> If you are using Windows Command Prompt (cmd):
+venv\Scripts\activate.bat
+
+# -> If you are using Windows PowerShell:
+.\venv\Scripts\Activate.ps1
+
+# -> If you are using macOS or Linux:
+source venv/bin/activate
+
+# Step 4: Install all the required libraries one by one
+# Note: The `--default-timeout=1000` flag is added to prevent installation errors due to slow internet speed.
+pip install --default-timeout=1000 pandas
+pip install --default-timeout=1000 numpy
+pip install --default-timeout=1000 matplotlib
+pip install --default-timeout=1000 seaborn
+pip install --default-timeout=1000 scikit-learn
+pip install --default-timeout=1000 scipy
+pip install --default-timeout=1000 nltk
+
+# Step 5: Download required NLTK Data one by one (for Practical 7)
+# Run the following commands in the terminal to ensure NLTK has the necessary text corpuses downloaded:
+python -c "import nltk; nltk.download('punkt')"
+python -c "import nltk; nltk.download('stopwords')"
+python -c "import nltk; nltk.download('averaged_perceptron_tagger_eng')"
+python -c "import nltk; nltk.download('wordnet')"
+python -c "import nltk; nltk.download('punkt_tab')"

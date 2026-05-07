@@ -1,0 +1,384 @@
+DSBDA Viva Preparation – Practical 3
+
+This PDF is prepared from your uploaded DSBDA Practical 3 notebook. The practical mainly focuses on Linear Regression, model training, prediction, evaluation metrics, and interpretation of regression graphs.
+
+Topics Covered
+
+• Linear Regression
+
+• Train Test Split
+
+• Model Training
+
+• Prediction
+
+• Regression Line
+
+• R-squared Score
+
+• Mean Squared Error
+
+• Data Visualization in Regression
+
+• Model Evaluation
+
+• Expected Viva Questions
+
+Important Functions Used
+
+Function Purpose
+
+pd.read_csv() Loads dataset
+
+train_test_split() Splits data into training and testing sets
+
+LinearRegression() Creates linear regression model
+
+model.fit() Trains the regression model
+
+model.predict() Predicts output values
+
+r2_score() Calculates R-squared score
+
+mean_squared_error() Calculates prediction error
+
+plt.scatter() Plots actual data points
+
+plt.plot() Plots regression line
+
+df.head() Displays first rows of dataset
+
+shape Shows dimensions of dataset
+
+Important Concepts
+
+What is Linear Regression?
+
+Linear regression is a supervised learning algorithm used to predict continuous values.
+
+Regression Equation
+
+Linear regression follows equation y = mx + c where m is slope and c is intercept.
+
+Training Data
+
+Training data is used to train the machine learning model.
+
+Testing Data
+
+Testing data is used to evaluate model performance.
+
+Prediction
+
+Prediction means estimating output values for unseen data.
+
+R-squared Score
+
+R² score measures how well regression line fits the data.
+
+Mean Squared Error
+
+MSE calculates average squared difference between actual and predicted values.
+
+Overfitting
+
+Overfitting occurs when model performs well on training data but poorly on testing data.
+
+Underfitting
+
+Underfitting occurs when model fails to learn patterns from data.
+
+Important Formula
+
+Linear Regression Equation:
+
+y = mx + c
+
+Where: y = predicted value m = slope x = input feature c = intercept
+
+Regression Formula Visualization
+
+Expected Viva Questions with Answers
+
+Q. What is machine learning?
+
+Ans. Machine learning is a field where systems learn patterns from data.
+
+Q. What is supervised learning?
+
+Ans. Supervised learning uses labeled data for training.
+
+Q. What is linear regression?
+
+Ans. Linear regression predicts continuous numerical values.
+
+Q. What is dependent variable?
+
+Ans. Dependent variable is output variable that we predict.
+
+Q. What is independent variable?
+
+Ans. Independent variable is input feature used for prediction.
+
+Q. Why use train_test_split()?
+
+Ans. It separates training and testing data for proper evaluation.
+
+Q. What does fit() do?
+
+Ans. fit() trains the machine learning model.
+
+Q. What does predict() do?
+
+Ans. predict() estimates output values using trained model.
+
+Q. What is R² score?
+
+Ans. R² score measures goodness of fit of regression model.
+
+Q. What is a good R² score?
+
+Ans. Closer to 1 indicates better model performance.
+
+Q. What is MSE?
+
+Ans. MSE measures average squared prediction error.
+
+Q. Difference between classification and regression?
+
+Ans. Classification predicts categories while regression predicts continuous values.
+
+Q. What is regression line?
+
+Ans. Regression line is best fit line representing relationship between variables.
+
+Q. Why scatter plot is used in regression?
+
+Ans. Scatter plot helps visualize relationship between variables.
+
+Q. What causes overfitting?
+
+Ans. Complex models and excessive training can cause overfitting.
+
+Important Tricky Viva Questions
+
+• Why is linear regression called supervised learning?
+
+• What happens if R² score is negative?
+
+• Can regression be used for categorical output?
+
+• Difference between correlation and regression?
+
+• Why is MSE squared?
+
+• What is residual error?
+
+• What assumptions are used in linear regression?
+
+• What happens if data is non-linear?
+
+Quick Revision Notes
+
+• Linear regression predicts continuous values.
+
+• Equation used is y = mx + c.
+
+• fit() trains the model.
+
+• predict() predicts outputs.
+
+• R² score closer to 1 is better.
+
+• MSE should be low.
+
+• Scatter plot visualizes data points.
+
+• Regression line shows best fit relationship.
+
+========================================
+### PRACTICAL CODE ###
+========================================
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+%matplotlib inline
+# Linear Regression is a supervised Machine Learning algorithm used to predict continuous numerical values.
+from sklearn.datasets import fetch_openml
+# Load dataset
+boston = fetch_openml(name="boston", version=1, as_frame=False)
+# This line downloads and stores the Boston Housing dataset in variable boston.
+data = pd.DataFrame(boston.data, columns=boston.feature_names)
+# Creates a Pandas DataFrame using:
+# boston.data → feature values
+# boston.feature_names → column names
+data = data.apply(pd.to_numeric, errors='coerce')
+# Converts values into numbers.
+data['PRICE'] = pd.to_numeric(boston.target, errors='coerce')
+# Creates a new column named PRICE.
+print("First 5 rows:")
+print(data.head())
+print("\nMissing values:")
+print(data.isnull().sum())
+corr = data.corr()
+# Correlation measures relationship between two variables.(-1 to +1)
+plt.figure(figsize=(20,20))
+# Creates plot area.
+sns.heatmap(
+    corr,
+    cbar=True,
+    square=True,
+    fmt='.1f',
+    annot=True,
+    annot_kws={'size':12},
+    cmap='Reds'
+)
+# Creates correlation heatmap.
+plt.title("Correlation Heatmap")
+plt.show()
+# +ve(Dark) -> Highly Coreleted (when one value inc other also inc)
+X = data.drop(['PRICE'], axis=1)
+y = data['PRICE']
+from sklearn.model_selection import train_test_split
+xtrain, xtest, ytrain, ytest = train_test_split(X, y, test_size=0.2, random_state=0)
+# Importing the functions inorder to divide the datasets
+xtrain = np.array(xtrain, dtype=float)
+xtest  = np.array(xtest, dtype=float)
+ytrain = np.array(ytrain, dtype=float)
+ytest  = np.array(ytest, dtype=float)
+# Convert to NumPy Arrays
+from sklearn.linear_model import LinearRegression
+lm = LinearRegression()
+lm.fit(xtrain, ytrain)
+# What fit() does
+# The model:
+# studies training data
+# learns relationships between inputs and output
+# calculates coefficients and intercept
+ytrain_pred = lm.predict(xtrain)
+# Uses trained model to predict prices for training data.
+ytest_pred  = lm.predict(xtest)
+# Predicts prices for unseen test data.
+print("Predictions created successfully.")
+from sklearn.metrics import mean_squared_error
+mse_test = mean_squared_error(ytest, ytest_pred)
+# Measures testing prediction error.
+mse_train = mean_squared_error(ytrain, ytrain_pred)
+# Measures training prediction error.
+rmse = np.sqrt(mse_test)
+r2 = lm.score(xtest, ytest)
+# Calculates coefficient of determination (R² score).
+print("\nModel Performance:")
+print("MSE (Test):", mse_test)
+print("MSE (Train):", mse_train)
+print("RMSE:", rmse)
+print("R-squared:", r2)
+plt.scatter(ytrain, ytrain_pred, label='Train data',color='red')
+# Creates scatter plot for training predictions.
+plt.scatter(ytest, ytest_pred, label='Test data',color='green')
+# Creates scatter plot for testing predictions.
+plt.xlabel('True values')
+plt.ylabel('Predicted values')
+plt.legend()
+# Displays legend box
+plt.show()
+testdata = np.array([[0.00632,18.0,2.31,0.0,0.538,6.575,65.2,4.09,1.0,296.0,15.3,396.9,4.98]], dtype=float)
+test_pred = lm.predict(testdata)
+print("\nCustom Test Prediction:")
+print(test_pred)
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=5)
+print(X_train.shape)
+print(X_test.shape)
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+# Split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=5)
+# Train
+model = LinearRegression()
+model.fit(X_train, y_train)
+# Predict
+y_train_pred = model.predict(X_train)
+y_test_pred  = model.predict(X_test)
+import pandas as pd
+sample_data = [[
+    0.00632, 18.0, 2.31, 0.0, 0.538, 6.575, 65.2, 4.09, 1.0, 296.0, 15.3, 396.9, 4.98
+]]
+sample_df = pd.DataFrame(sample_data, columns=X.columns)
+price = model.predict(sample_df)
+print("Predicted selling price for house: ${:.2f}".format(price[0]))
+
+========================================
+### CODE EXPLANATION ###
+========================================
+
+[import pandas as pd] : Imports pandas library for data manipulation and reading datasets.
+[import numpy as np] : Imports numpy library for numerical calculations.
+[import matplotlib.pyplot as plt] : Imports matplotlib library for data visualization.
+[import seaborn as sns] : Imports seaborn library for advanced data visualization.
+[from sklearn.datasets import fetch_openml] : Imports specific machine learning modules from the scikit-learn library.
+[boston = fetch_openml(name="boston", version=1, as_frame=False)] : Assigns the value to the variable 'boston'.
+[data = pd.DataFrame(boston.data, columns=boston.feature_names)] : Assigns the value to the variable 'data'.
+[data = data.apply(pd.to_numeric, errors='coerce')] : Assigns the value to the variable 'data'.
+[data['PRICE'] = pd.to_numeric(boston.target, errors='coerce')] : Assigns the value to the variable 'data['PRICE']'.
+[print("First 5 rows:")] : Prints the specified output.
+[print(data.head())] : Displays the first 5 rows of the dataset.
+[print("\nMissing values:")] : Prints the specified output.
+[print(data.isnull().sum())] : Checks for missing (null) values in the dataset.
+[corr = data.corr()] : Assigns the value to the variable 'corr'.
+[plt.figure(figsize=(20,20))] : Assigns the value to the variable 'plt.figure(figsize'.
+[sns.heatmap( corr, cbar=True, square=True, fmt='.1f', annot=True, annot_kws={'size':12}, cmap='Reds' )] : Creates a heatmap to visualize the correlation matrix.
+[plt.title("Correlation Heatmap")] : Adds a title to the plot.
+[plt.show()] : Displays the generated plot on the screen.
+[X = data.drop(['PRICE'], axis=1)] : Assigns the value to the variable 'X'.
+[y = data['PRICE']] : Assigns the value to the variable 'y'.
+[from sklearn.model_selection import train_test_split] : Imports specific machine learning modules from the scikit-learn library.
+[xtrain, xtest, ytrain, ytest = train_test_split(X, y, test_size=0.2, random_state=0)] : Splits the dataset into training data and testing data.
+[xtrain = np.array(xtrain, dtype=float)] : Assigns the value to the variable 'xtrain'.
+[xtest  = np.array(xtest, dtype=float)] : Assigns the value to the variable 'xtest'.
+[ytrain = np.array(ytrain, dtype=float)] : Assigns the value to the variable 'ytrain'.
+[ytest  = np.array(ytest, dtype=float)] : Assigns the value to the variable 'ytest'.
+[from sklearn.linear_model import LinearRegression] : Imports specific machine learning modules from the scikit-learn library.
+[lm = LinearRegression()] : Initializes a Linear Regression model.
+[lm.fit(xtrain, ytrain)] : Trains the model using the provided training data.
+[ytrain_pred = lm.predict(xtrain)] : Uses the trained model to make predictions on new data.
+[ytest_pred  = lm.predict(xtest)] : Uses the trained model to make predictions on new data.
+[print("Predictions created successfully.")] : Prints the specified output.
+[from sklearn.metrics import mean_squared_error] : Imports specific machine learning modules from the scikit-learn library.
+[mse_test = mean_squared_error(ytest, ytest_pred)] : Calculates the Mean Squared Error.
+[mse_train = mean_squared_error(ytrain, ytrain_pred)] : Calculates the Mean Squared Error.
+[rmse = np.sqrt(mse_test)] : Assigns the value to the variable 'rmse'.
+[r2 = lm.score(xtest, ytest)] : Assigns the value to the variable 'r2'.
+[print("\nModel Performance:")] : Prints the specified output.
+[print("MSE (Test):", mse_test)] : Prints the specified output.
+[print("MSE (Train):", mse_train)] : Prints the specified output.
+[print("RMSE:", rmse)] : Prints the specified output.
+[print("R-squared:", r2)] : Prints the specified output.
+[plt.scatter(ytrain, ytrain_pred, label='Train data',color='red')] : Assigns the value to the variable 'plt.scatter(ytrain, ytrain_pred, label'.
+[plt.scatter(ytest, ytest_pred, label='Test data',color='green')] : Assigns the value to the variable 'plt.scatter(ytest, ytest_pred, label'.
+[plt.xlabel('True values')] : Executes specific operation.
+[plt.ylabel('Predicted values')] : Executes specific operation.
+[plt.legend()] : Executes specific operation.
+[plt.show()] : Displays the generated plot on the screen.
+[testdata = np.array([[0.00632,18.0,2.31,0.0,0.538,6.575,65.2,4.09,1.0,296.0,15.3,396.9,4.98]], dtype=float)] : Assigns the value to the variable 'testdata'.
+[test_pred = lm.predict(testdata)] : Uses the trained model to make predictions on new data.
+[print("\nCustom Test Prediction:")] : Prints the specified output.
+[print(test_pred)] : Prints the specified output.
+[from sklearn.model_selection import train_test_split] : Imports specific machine learning modules from the scikit-learn library.
+[X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=5)] : Splits the dataset into training data and testing data.
+[print(X_train.shape)] : Returns the dimensions (number of rows and columns) of the dataset.
+[print(X_test.shape)] : Returns the dimensions (number of rows and columns) of the dataset.
+[from sklearn.model_selection import train_test_split] : Imports specific machine learning modules from the scikit-learn library.
+[from sklearn.linear_model import LinearRegression] : Imports specific machine learning modules from the scikit-learn library.
+[X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=5)] : Splits the dataset into training data and testing data.
+[model = LinearRegression()] : Initializes a Linear Regression model.
+[model.fit(X_train, y_train)] : Trains the model using the provided training data.
+[y_train_pred = model.predict(X_train)] : Uses the trained model to make predictions on new data.
+[y_test_pred  = model.predict(X_test)] : Uses the trained model to make predictions on new data.
+[import pandas as pd] : Imports pandas library for data manipulation and reading datasets.
+[sample_data = [[ 0.00632, 18.0, 2.31, 0.0, 0.538, 6.575, 65.2, 4.09, 1.0, 296.0, 15.3, 396.9, 4.98 ]]] : Assigns the value to the variable 'sample_data'.
+[sample_df = pd.DataFrame(sample_data, columns=X.columns)] : Returns the column names of the dataset.
+[price = model.predict(sample_df)] : Uses the trained model to make predictions on new data.
+[print("Predicted selling price for house: ${:.2f}".format(price[0]))] : Prints the specified output.

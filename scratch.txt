@@ -1,0 +1,588 @@
+--- Practical1 ---
+# numpy-> Used for Numerical Operations 
+# pandas->Data Manipulation and reading datasets
+# matplotlib->Used for the Data Visualization
+# seaborn->Advanced than matplotlib (for HeatMaps,Pair Plots)
+# scikitlearn->Used for Machine learning algorithms
+import pandas as pd
+import  numpy as np
+df=pd.read_csv("iris.csv")
+# Reading of the Dataset
+print(df)
+# printing the dataframe
+print(df.head())
+# Printing the rows from top
+df.index
+# The index (row labels) of the Dataset.
+df.columns
+# The column labels of the Dataset
+df.shape
+# Return a tuple representing the dimensionality of the
+# Dataset.
+df.dtypes
+# Return the dtypes in the Dataset.
+df.columns.values 
+    
+df.describe()
+# Generate descriptive statistics.
+df['SepalLengthCm']
+# Read Data ColumnWise
+df.sort_values(by='SepalLengthCm')
+# Sorting values ColumnWise
+df.iloc[3]
+df.iloc[1:4 , 2:5]
+# iloc->Slicing the data
+df.isnull()
+df.isnull().sum()
+
+df.isnull().any()
+df['SepalLengthCm'].isnull().any()
+df['SepalLengthCm'].isnull().sum()
+df['PetalLengthCm']=df['PetalLengthCm'].astype("int")
+df['PetalLengthCm'].dtype
+df['PetalLengthCm']=df['PetalLengthCm'].astype('float64')
+df['PetalLengthCm'].dtype
+df.dropna(inplace=True)
+df.fillna(df.mean(numeric_only=True), inplace=True)
+df['SepalLengthCm'].fillna(df['SepalLengthCm'].median(), inplace=True)
+df['PetalLengthCm'].fillna(df['PetalLengthCm'].mode(), inplace=True)
+from sklearn import preprocessing
+# only uses preprocessing module from sklearn
+# Normalization->Mapping all Nominal value into Uniform Scale
+    # Method->Min-Max Scaling ->Converts values between range 0 and 1.
+
+    # Nor=X-Xmin/Xmax-Xmin
+x=df[['SepalLengthCm','SepalWidthCm','PetalLengthCm','PetalWidthCm']]
+# Selects numerical columns from dataset.
+min_max_scaler=preprocessing.MinMaxScaler()
+# Creates Min-Max normalization object.
+x_scaled=min_max_scaler.fit_transform(x)
+# values become in range 0 to 1
+dataframe=pd.DataFrame(x_scaled)
+print(dataframe)
+# Need of Normalization ->
+# We do normalization because machine learning algorithms perform better when all features are on a similar scale.
+label_encoder=preprocessing.LabelEncoder()
+# creates label_encoder Object
+df = pd.read_csv("Iris.csv")
+df['Species']=label_encoder.fit_transform(df['Species'])
+print(df['Species'])
+print(df)
+enc=preprocessing.OneHotEncoder()
+# Label encoding converts the data in machine-readable form, but it assigns
+# a unique number(starting from 0) to each class of data. This may lead to the
+# generation of priority issues in the data sets
+
+
+# Creates separate binary columns for each category.
+new_df=df.drop(columns=['Species'])
+enc_df=pd.DataFrame(enc.fit_transform(df[['Species']]).toarray())
+df_encode=new_df.join(enc_df)
+df_encode
+
+--- Practical2 ---
+import pandas as pd
+import numpy as np
+from sklearn.preprocessing import MinMaxScaler, StandardScaler
+from scipy import stats
+#2. Load academic dataset
+df = pd.read_csv("StudentsPerformance.csv")
+df
+df.columns
+print(df.isnull().sum())
+# Fill missing numerical values with mean
+df.fillna(df.mean(numeric_only=True), inplace=True)
+# Remove duplicate rows
+df.drop_duplicates(inplace=True)
+# Standardize column names
+df.columns = df.columns.str.strip()
+# 4. Describe dataset
+print(df.head())
+print(df.shape)
+print(df.columns)
+df.describe()
+# 5. Identify outliers using IQR method
+
+# Select numerical columns
+numeric_cols = df.select_dtypes(include=[np.number])
+Q1 = numeric_cols.quantile(0.25)
+Q3 = numeric_cols.quantile(0.75)
+IQR = Q3 - Q1
+outliers = ((numeric_cols < (Q1 - 1.5 * IQR)) |
+            (numeric_cols > (Q3 + 1.5 * IQR)))
+print("Outliers using IQR:")
+print(outliers.sum())
+# 6. Identify outliers using Z-score method
+
+z_scores = np.abs(stats.zscore(numeric_cols))
+print("Outliers using Z-score:")
+print((z_scores > 3).sum(axis=0))
+# 7. Apply data transformation
+
+# Log transformation
+df_log = numeric_cols.apply(lambda x: np.log1p(x))
+
+# Normalization using Min-Max Scaling
+scaler = MinMaxScaler()
+df_normalized = pd.DataFrame(scaler.fit_transform(numeric_cols),
+                             columns=numeric_cols.columns)
+# 8. Display transformed data
+print("Log Transformed Data:")
+print(df_log.head())
+
+print("Normalized Data:")
+print(df_normalized.head())
+
+--- Practical3 ---
+import numpy as np
+import pandas as pd
+data=pd.read_csv("iris.csv")
+data.describe()
+data.SepalLengthCm.unique() 
+# This returns all unique/distinct values present in the SepalLengthCm column.
+data.groupby(data.SepalLengthCm).count() 
+# This groups the dataset by SepalLengthCm and counts the number of non-null values in each column for every group.
+data.groupby(data.SepalWidthCm).min() 
+# This groups the dataset based on SepalWidthCm values and finds the minimum value of every column within each group.
+data.groupby(data.SepalWidthCm).max() 
+# This groups the dataset based on SepalWidthCm values and finds the maximum value of every column within each group.
+data.groupby('SepalLengthCm').mean(numeric_only=True)
+# This groups the dataset by SepalLengthCm and calculates the average (mean) of all numeric columns for each group.
+data.groupby('SepalLengthCm').std(numeric_only=True)
+# This groups the dataset by SepalLengthCm and calculates the  Standard Deviation of all numeric columns for each group.
+data.dtypes
+data.groupby(data.SepalWidthCm).describe() 
+data.groupby('SepalLengthCm').std(numeric_only=True)
+data.Species.unique() 
+data.groupby(data.Species).count()
+data.groupby(data.Species).max()
+data.groupby(data.Species).mean()
+data.groupby(data.Species).std()
+
+--- Practical4 ---
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+%matplotlib inline
+
+# Linear Regression is a supervised Machine Learning algorithm used to predict continuous numerical values.
+from sklearn.datasets import fetch_openml
+# Load dataset
+
+boston = fetch_openml(name="boston", version=1, as_frame=False)
+# This line downloads and stores the Boston Housing dataset in variable boston.
+data = pd.DataFrame(boston.data, columns=boston.feature_names)
+# Creates a Pandas DataFrame using:
+# boston.data → feature values
+# boston.feature_names → column names
+
+data = data.apply(pd.to_numeric, errors='coerce')
+# Converts values into numbers.
+
+data['PRICE'] = pd.to_numeric(boston.target, errors='coerce')
+# Creates a new column named PRICE.
+
+print("First 5 rows:")
+print(data.head())
+print("\nMissing values:")
+print(data.isnull().sum())
+corr = data.corr()
+# Correlation measures relationship between two variables.(-1 to +1)
+
+
+plt.figure(figsize=(20,20))
+# Creates plot area.
+
+
+sns.heatmap(
+    corr,
+    cbar=True,
+    square=True,
+    fmt='.1f',
+    annot=True,
+    annot_kws={'size':12},
+    cmap='Reds'
+)
+# Creates correlation heatmap.
+
+plt.title("Correlation Heatmap")
+plt.show()
+
+# +ve(Dark) -> Highly Coreleted (when one value inc other also inc)
+X = data.drop(['PRICE'], axis=1)
+y = data['PRICE']
+
+from sklearn.model_selection import train_test_split
+xtrain, xtest, ytrain, ytest = train_test_split(X, y, test_size=0.2, random_state=0)
+# Importing the functions inorder to divide the datasets
+
+xtrain = np.array(xtrain, dtype=float)
+xtest  = np.array(xtest, dtype=float)
+ytrain = np.array(ytrain, dtype=float)
+ytest  = np.array(ytest, dtype=float)
+
+# Convert to NumPy Arrays
+from sklearn.linear_model import LinearRegression
+
+lm = LinearRegression()
+lm.fit(xtrain, ytrain)
+
+# What fit() does
+
+# The model:
+# studies training data
+# learns relationships between inputs and output
+# calculates coefficients and intercept
+
+ytrain_pred = lm.predict(xtrain)
+# Uses trained model to predict prices for training data.
+
+ytest_pred  = lm.predict(xtest)
+# Predicts prices for unseen test data.
+
+print("Predictions created successfully.")
+from sklearn.metrics import mean_squared_error
+
+mse_test = mean_squared_error(ytest, ytest_pred)
+# Measures testing prediction error.
+
+mse_train = mean_squared_error(ytrain, ytrain_pred)
+# Measures training prediction error.
+
+rmse = np.sqrt(mse_test)
+
+r2 = lm.score(xtest, ytest)
+# Calculates coefficient of determination (R² score).
+
+print("\nModel Performance:")
+print("MSE (Test):", mse_test)
+print("MSE (Train):", mse_train)
+print("RMSE:", rmse)
+print("R-squared:", r2)
+plt.scatter(ytrain, ytrain_pred, label='Train data',color='red')
+# Creates scatter plot for training predictions.
+
+plt.scatter(ytest, ytest_pred, label='Test data',color='green')
+# Creates scatter plot for testing predictions.
+
+plt.xlabel('True values')
+plt.ylabel('Predicted values')
+
+plt.legend()
+# Displays legend box
+
+plt.show()
+testdata = np.array([[0.00632,18.0,2.31,0.0,0.538,6.575,65.2,4.09,1.0,296.0,15.3,396.9,4.98]], dtype=float)
+
+test_pred = lm.predict(testdata)
+
+print("\nCustom Test Prediction:")
+print(test_pred)
+from sklearn.model_selection import train_test_split
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=5)
+
+print(X_train.shape)
+print(X_test.shape)
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+
+# Split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=5)
+
+# Train
+model = LinearRegression()
+model.fit(X_train, y_train)
+
+# Predict
+y_train_pred = model.predict(X_train)
+y_test_pred  = model.predict(X_test)
+import pandas as pd
+
+sample_data = [[
+    0.00632, 18.0, 2.31, 0.0, 0.538, 6.575, 65.2, 4.09, 1.0, 296.0, 15.3, 396.9, 4.98
+]]
+
+sample_df = pd.DataFrame(sample_data, columns=X.columns)
+
+price = model.predict(sample_df)
+print("Predicted selling price for house: ${:.2f}".format(price[0]))
+
+--- Practical5 ---
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score
+df = pd.read_csv("Social_Network_Ads.csv")  # update path if needed
+df.head()
+X = df[['Age', 'EstimatedSalary']]
+y = df['Purchased']
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.25, random_state=0
+)
+sc = StandardScaler()
+X_train = sc.fit_transform(X_train)
+X_test = sc.transform(X_test)
+model = LogisticRegression()
+model.fit(X_train, y_train)
+y_pred = model.predict(X_test)
+cm = confusion_matrix(y_test, y_pred)
+print("Confusion Matrix:\n", cm)
+'''accuracy = accuracy_score(y_test, y_pred)
+error_rate = 1 - accuracy
+precision = precision_score(y_test, y_pred)
+recall = recall_score(y_test, y_pred)
+
+print("Accuracy:", accuracy)
+print("Error Rate:", error_rate)
+print("Precision:", precision)
+print("Recall:", recall)'''
+TN = cm[0][0]
+FP = cm[0][1]
+FN = cm[1][0]
+TP = cm[1][1]
+
+print("TP:", TP, "TN:", TN, "FP:", FP, "FN:", FN)
+accuracy = (TP + TN) / (TP + TN + FP + FN)
+error_rate = (FP + FN) / (TP + TN + FP + FN)
+precision = TP / (TP + FP)
+recall = TP / (TP + FN)
+print("Accuracy: {:.2f}".format(accuracy))
+print("Error Rate: {:.2f}".format(error_rate))
+print("Precision: {:.2f}".format(precision))
+print("Recall: {:.2f}".format(recall))
+
+
+--- Practical6 ---
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+data=pd.read_csv("Iris.csv")
+X=data.iloc[:,:4].values
+y = data['Species'].values
+print(data.head())
+from sklearn.model_selection import train_test_split
+# Imports function used to divide dataset.
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
+# Dataset is divided into:
+#     Training Data → used to train model
+#     Testing Data → used to test model
+from sklearn.preprocessing import StandardScaler
+sc = StandardScaler()
+# It converts data into a standard form:
+
+# Mean = 0
+# Standard Deviation = 1
+X_train = sc.fit_transform(X_train)
+# fit() calculates mean and standard deviation, and transform() scales the data using those values.
+X_test = sc.transform(X_test)
+# z=x-u/rho
+# transform() is used to convert the original data into scaled/standardized form using previously learned values.
+from sklearn.naive_bayes import GaussianNB
+classifier = GaussianNB()
+# This line creates a Gaussian Naïve Bayes model object.
+classifier.fit(X_train, y_train)
+# This line is used to train the Naïve Bayes model using the training dataset.
+y_pred = classifier.predict(X_test)
+# This line is used to predict the output/classes for the test dataset using the trained Naïve Bayes model.
+print(y_pred)
+from sklearn.metrics import confusion_matrix
+cm=confusion_matrix(y_test, y_pred)
+from sklearn.metrics import accuracy_score
+print("Consusion matrix: \n")
+print(cm)
+df = pd.DataFrame({'Real Values':y_test, 'Predicted Values':y_pred})
+print(df)
+from sklearn.metrics import precision_score, recall_score,accuracy_score
+m=accuracy_score(y_test,y_pred)
+print("Accuracy: {:.2f}".format(accuracy_score(y_test, y_pred)))
+# How many predictions were correct out of total predictions.
+print("Error Rate: {:.2f}".format(1 - m))
+# How many predictions were wrong out of total predictions.
+print("Precision: {:.2f}".format(precision_score(y_test, y_pred, average='micro')))
+# Out of all predicted positive values, how many were actually correct.
+print("Recall: {:.2f}".format(recall_score(y_test, y_pred, average='micro')))
+# Out of all actual positive values, how many were correctly identified.
+
+--- Practical7 ---
+import nltk
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+from nltk.stem import PorterStemmer, WordNetLemmatizer
+from nltk import pos_tag
+from nltk.tokenize import sent_tokenize
+nltk.download('punkt')
+nltk.download('stopwords')
+nltk.download('averaged_perceptron_tagger_eng')
+nltk.download('wordnet')
+nltk.download('punkt_tab')
+text = "Natural Language Processing is amazing and helps in analyzing text data easily."
+tokenize_text = sent_tokenize(text)
+# Breaking sentence into words/tokens.
+print(tokenize_text)
+tokens = word_tokenize(text) #sentence.split(" ")
+print("Tokens:", tokens)
+
+# POS Tagging
+pos = pos_tag(tokens)
+# Assigns grammatical category to each word.
+print("POS Tags:", pos)
+
+# Tag	Meaning
+# NN	Noun
+# VB	Verb
+# JJ	Adjective
+# RB	Adverb
+# Stopword Removal
+filtered = [word for word in tokens if word.lower() not in stopwords.words('english')]
+print("After Stopword Removal:", filtered)
+# Stemming
+ps = PorterStemmer()
+stemmed = [ps.stem(word) for word in filtered]
+print("Stemmed Words:", stemmed)
+
+# Converts words to root form.
+# Lemmatization
+lm = WordNetLemmatizer()
+lemmatized = [lm.lemmatize(word) for word in filtered]
+print("Lemmatized Words:", lemmatized)
+
+# Converts words into meaningful dictionary words.
+from sklearn.feature_extraction.text import TfidfVectorizer
+# Term Frequency -> How many times a word appears in a document.
+
+documents = [
+    "I love machine learning",
+    "Machine learning is powerful"
+]
+
+# IDF ->How important or rare a word is across all documents.
+
+vectorizer = TfidfVectorizer()
+
+tfidf_matrix = vectorizer.fit_transform(documents)
+
+print(tfidf_matrix.toarray())
+# TF-IDF converts text into numeric importance scores.
+
+--- Practical8 ---
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+titanic = pd.read_csv("titanic.csv")   # use your file path
+titanic.head()
+sns.countplot(x='survived', data=titanic)
+plt.title("Survival Count")
+plt.show()
+
+# It shows:
+
+# how many passengers survived
+# how many did not survive
+sns.countplot(x='sex', hue='survived', data=titanic)
+plt.title("Survival by Gender")
+plt.show()
+sns.countplot(x='pclass', hue='survived', data=titanic)
+plt.title("Survival by Class")
+plt.show()
+# 🔹 4. Histogram for Fare Distribution
+sns.histplot(titanic['fare'], bins=30, kde=True)
+plt.title("Fare Distribution")
+plt.xlabel("Fare")
+plt.ylabel("Frequency")
+plt.show()
+
+# A histogram is a graph used to show the distribution of numerical data.
+skew_value = titanic['fare'].skew()
+print("Skewness of Fare:", skew_value)
+print("Mean Fare:", titanic['fare'].mean())
+print("Median Fare:", titanic['fare'].median())
+titanic['fare'].describe()
+
+--- Practical9 ---
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+titanic = pd.read_csv("titanic.csv")
+titanic.head()
+sns.countplot(x='sex', hue='survived', data=titanic)
+plt.title("Survival Count by Gender")
+plt.show()
+print(titanic['age'].isnull().sum())
+sns.boxplot(x=titanic['age'])
+plt.title("Boxplot of Age")
+plt.show()
+sns.boxplot(x='sex', y='age', hue='survived', data=titanic)
+plt.title("Age vs Gender vs Survival")
+plt.show()
+Q1 = titanic['age'].quantile(0.25)
+Q3 = titanic['age'].quantile(0.75)
+IQR = Q3 - Q1
+
+lower = Q1 - 1.5 * IQR
+upper = Q3 + 1.5 * IQR
+
+outliers = titanic[(titanic['age'] < lower) | (titanic['age'] > upper)]
+
+print("Outliers in Age:\n")
+print(outliers[['age', 'sex', 'survived']])
+
+--- Practical10 ---
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+df=pd.read_csv("Iris.csv")
+df.tail()
+#df['Species'].unique()
+df.isnull().sum()
+df.dtypes
+df.info()
+df.describe()
+'' 'Iris-setosa' 'Iris-virginica' 'Iris-versicolor'
+sns.histplot(data=df, x="Species")
+sns.histplot(data=df, x="SepalLengthCm")
+#Average sepallength lies between 5 -6
+df['SepalLengthCm'].mean()
+sns.histplot(data=df, x="PetalLengthCm")
+#Average sepalwidth lies between 4 -6
+df['PetalLengthCm'].mean()
+sns.histplot(data=df, x="SepalWidthCm")
+#Average sepalwidth lies between 2.5 -3.5
+df['SepalWidthCm'].mean()
+sns.histplot(data=df, x="PetalWidthCm")
+#Average petalwidth lies between 1 -2
+df['PetalWidthCm'].mean()
+sns.boxplot(x=df['SepalLengthCm'])
+#Median lies between 5.5 to 6
+sns.boxplot(x=df['PetalLengthCm'])
+#Median lies between 4 to 5
+sns.boxplot(x=df['SepalWidthCm'])
+sns.boxplot(x=df['PetalWidthCm'])
+#Median lies between 1 to 1.5
+Q1=df['SepalWidthCm'].quantile(0.25)
+Q3=df['SepalWidthCm'].quantile(0.75)
+Q1,Q3
+IQR=Q3-Q1
+lower_limit=Q1-1.5*IQR
+upper_limit=Q3+1.5*IQR
+df[(df['SepalWidthCm']<lower_limit)|(df['SepalWidthCm']>upper_limit)]
+df_without_outliers=df[(df['SepalWidthCm']>lower_limit)&(df['SepalWidthCm']<upper_limit)]
+df_without_outliers
+sns.boxplot(x=df_without_outliers['SepalWidthCm'])
+features = df.iloc[:, 1:5]
+target = df.iloc[:, -1]
+target.head()
+print('The Initial DataFrame Contained %d Rows And %d Columns'%(df.shape))
+
+print('The Features Matrix Contains %d Rows And %d Columns'%(features.shape))
+
+print('The Target Vector Contains %d Rows And %d Columns'%(np.array(target).reshape(-1, 1).shape))
+

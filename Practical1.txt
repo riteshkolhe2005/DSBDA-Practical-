@@ -1,0 +1,318 @@
+DSBDA Viva Preparation – Practical 1
+
+This PDF is prepared from your uploaded DSBDA practical code based on the Iris Dataset. It covers concepts, functions, preprocessing techniques, normalization, encoding methods, and expected viva questions with answers.
+
+Topics Covered
+
+• Pandas and NumPy basics
+
+• Reading datasets using pandas
+
+• Dataset inspection functions
+
+• Handling missing values
+
+• Data type conversion
+
+• Normalization using MinMaxScaler
+
+• Label Encoding
+
+• One Hot Encoding
+
+• Data preprocessing concepts
+
+• Expected Viva Questions
+
+Important Functions Used in Code
+
+Function Purpose
+
+pd.read_csv() Reads CSV dataset into dataframe
+
+df.head() Displays first 5 rows
+
+df.shape Returns number of rows and columns
+
+df.dtypes Shows datatype of each column
+
+df.describe() Statistical summary of dataset
+
+df.isnull() Checks missing values
+
+df.fillna() Fills missing values
+
+astype() Converts datatype
+
+MinMaxScaler() Normalizes data between 0 and 1
+
+LabelEncoder() Converts categorical labels into numbers
+
+OneHotEncoder() Creates binary columns for categories
+
+iloc[] Index-based slicing
+
+sort_values() Sorts dataframe column values
+
+Important Concepts
+
+What is Data Preprocessing?
+
+Data preprocessing is the process of cleaning and transforming raw data before applying machine learning algorithms.
+
+Why Handle Missing Values?
+
+Machine learning algorithms cannot work properly with null values. Missing values are handled using mean, median, mode, or by dropping rows.
+
+Normalization
+
+Normalization scales all values into a common range. Min-Max scaling converts values between 0 and 1.
+
+Label Encoding
+
+Label encoding converts categorical text labels into numerical values.
+
+One Hot Encoding
+
+One hot encoding creates separate binary columns for each category and avoids priority issues.
+
+Difference Between Mean, Median, and Mode
+
+Mean is average value, median is middle value, and mode is most frequent value.
+
+Normalization Formula
+
+Min-Max Scaling Formula:
+
+Normalized Value = (X - Xmin) / (Xmax - Xmin)
+
+Expected Viva Questions with Answers
+
+Q. What is Pandas?
+
+Ans. Pandas is a Python library used for data manipulation and analysis.
+
+Q. What is NumPy?
+
+Ans. NumPy is a library used for numerical computations and array operations.
+
+Q. What is the Iris Dataset?
+
+Ans. It is a famous dataset containing flower measurements used for machine learning classification.
+
+Q. What is dataframe?
+
+Ans. A dataframe is a 2-dimensional tabular data structure in pandas.
+
+Q. Why do we use df.describe()?
+
+Ans. It provides statistical summary like mean, standard deviation, minimum, and maximum values.
+
+Q. Difference between loc and iloc?
+
+Ans. loc uses labels while iloc uses integer indexes.
+
+Q. What is normalization?
+
+Ans. Normalization scales numerical values into a common range.
+
+Q. Why is normalization important?
+
+Ans. It improves machine learning performance when features have different scales.
+
+Q. What is label encoding?
+
+Ans. It converts categorical labels into numbers.
+
+Q. Why is One Hot Encoding better than Label Encoding?
+
+Ans. It removes ordinal relationship between categories.
+
+Q. What is overfitting?
+
+Ans. Overfitting occurs when a model learns training data too well and performs poorly on new data.
+
+Q. What is missing data?
+
+Ans. Missing data refers to null or empty values in dataset columns.
+
+Q. Why use mean for missing values?
+
+Ans. Mean is used because it represents average distribution of numerical data.
+
+Q. What is the use of astype()?
+
+Ans. astype() converts one datatype into another datatype.
+
+Q. What does inplace=True mean?
+
+Ans. It modifies the original dataframe directly.
+
+Important Tricky Viva Questions
+
+• Why do we convert categorical data into numerical form?
+
+• What happens if normalization is not done?
+
+• Can One Hot Encoding increase dimensions?
+
+• Why is Iris dataset widely used?
+
+• Which encoding method is better for ML models?
+
+• Difference between supervised and unsupervised learning?
+
+• What is feature scaling?
+
+• What is the difference between fit(), transform(), and fit_transform()?
+
+Quick Revision Notes
+
+• Pandas is mainly used for dataframe operations.
+
+• NumPy is used for arrays and mathematical calculations.
+
+• Missing values can be handled using mean, median, mode, or dropna().
+
+• Normalization scales data into a fixed range.
+
+• Label Encoding assigns numbers to categories.
+
+• One Hot Encoding creates separate binary columns.
+
+• fit() learns parameters from data.
+
+• transform() applies learned transformation.
+
+• fit_transform() performs both together.
+
+Prepare these concepts thoroughly for viva. Focus especially on preprocessing, normalization, encoding techniques, and explanation of each pandas function used in the code.
+
+========================================
+### PRACTICAL CODE ###
+========================================
+
+# numpy-> Used for Numerical Operations 
+# pandas->Data Manipulation and reading datasets
+# matplotlib->Used for the Data Visualization
+# seaborn->Advanced than matplotlib (for HeatMaps,Pair Plots)
+# scikitlearn->Used for Machine learning algorithms
+import pandas as pd
+import  numpy as np
+df=pd.read_csv("iris.csv")
+# Reading of the Dataset
+print(df)
+# printing the dataframe
+print(df.head())
+# Printing the rows from top
+df.index
+# The index (row labels) of the Dataset.
+df.columns
+# The column labels of the Dataset
+df.shape
+# Return a tuple representing the dimensionality of the
+# Dataset.
+df.dtypes
+# Return the dtypes in the Dataset.
+df.columns.values 
+df.describe()
+# Generate descriptive statistics.
+df['SepalLengthCm']
+# Read Data ColumnWise
+df.sort_values(by='SepalLengthCm')
+# Sorting values ColumnWise
+df.iloc[3]
+df.iloc[1:4 , 2:5]
+# iloc->Slicing the data
+df.isnull()
+df.isnull().sum()
+df.isnull().any()
+df['SepalLengthCm'].isnull().any()
+df['SepalLengthCm'].isnull().sum()
+df['PetalLengthCm']=df['PetalLengthCm'].astype("int")
+df['PetalLengthCm'].dtype
+df['PetalLengthCm']=df['PetalLengthCm'].astype('float64')
+df['PetalLengthCm'].dtype
+df.dropna(inplace=True)
+df.fillna(df.mean(numeric_only=True), inplace=True)
+df['SepalLengthCm'].fillna(df['SepalLengthCm'].median(), inplace=True)
+df['PetalLengthCm'].fillna(df['PetalLengthCm'].mode(), inplace=True)
+from sklearn import preprocessing
+# only uses preprocessing module from sklearn
+# Normalization->Mapping all Nominal value into Uniform Scale
+    # Method->Min-Max Scaling ->Converts values between range 0 and 1.
+    # Nor=X-Xmin/Xmax-Xmin
+x=df[['SepalLengthCm','SepalWidthCm','PetalLengthCm','PetalWidthCm']]
+# Selects numerical columns from dataset.
+min_max_scaler=preprocessing.MinMaxScaler()
+# Creates Min-Max normalization object.
+x_scaled=min_max_scaler.fit_transform(x)
+# values become in range 0 to 1
+dataframe=pd.DataFrame(x_scaled)
+print(dataframe)
+# Need of Normalization ->
+# We do normalization because machine learning algorithms perform better when all features are on a similar scale.
+label_encoder=preprocessing.LabelEncoder()
+# creates label_encoder Object
+df = pd.read_csv("Iris.csv")
+df['Species']=label_encoder.fit_transform(df['Species'])
+print(df['Species'])
+print(df)
+enc=preprocessing.OneHotEncoder()
+# Label encoding converts the data in machine-readable form, but it assigns
+# a unique number(starting from 0) to each class of data. This may lead to the
+# generation of priority issues in the data sets
+# Creates separate binary columns for each category.
+new_df=df.drop(columns=['Species'])
+enc_df=pd.DataFrame(enc.fit_transform(df[['Species']]).toarray())
+df_encode=new_df.join(enc_df)
+df_encode
+
+========================================
+### CODE EXPLANATION ###
+========================================
+
+[import pandas as pd] : Imports pandas library for data manipulation and reading datasets.
+[import  numpy as np] : Executes specific operation.
+[df=pd.read_csv("iris.csv")] : Reads the CSV dataset into a pandas DataFrame.
+[print(df)] : Prints the specified output.
+[print(df.head())] : Displays the first 5 rows of the dataset.
+[df.index] : Returns the row labels/index of the dataset.
+[df.columns] : Returns the column names of the dataset.
+[df.shape] : Returns the dimensions (number of rows and columns) of the dataset.
+[df.dtypes] : Shows the data type of each column in the dataset.
+[df.columns.values] : Returns the column names of the dataset.
+[df.describe()] : Generates a statistical summary of the dataset (mean, std, min, max, etc.).
+[df['SepalLengthCm']] : Executes specific operation.
+[df.sort_values(by='SepalLengthCm')] : Sorts the DataFrame based on a specific column.
+[df.iloc[3]] : Selects specific rows and columns using index-based slicing.
+[df.iloc[1:4 , 2:5]] : Selects specific rows and columns using index-based slicing.
+[df.isnull()] : Checks for missing (null) values in the dataset.
+[df.isnull().sum()] : Checks for missing (null) values in the dataset.
+[df.isnull().any()] : Checks for missing (null) values in the dataset.
+[df['SepalLengthCm'].isnull().any()] : Checks for missing (null) values in the dataset.
+[df['SepalLengthCm'].isnull().sum()] : Checks for missing (null) values in the dataset.
+[df['PetalLengthCm']=df['PetalLengthCm'].astype("int")] : Converts the data type of the specified column.
+[df['PetalLengthCm'].dtype] : Executes specific operation.
+[df['PetalLengthCm']=df['PetalLengthCm'].astype('float64')] : Converts the data type of the specified column.
+[df['PetalLengthCm'].dtype] : Executes specific operation.
+[df.dropna(inplace=True)] : Drops rows that contain missing values.
+[df.fillna(df.mean(numeric_only=True), inplace=True)] : Fills missing values with a specific value.
+[df['SepalLengthCm'].fillna(df['SepalLengthCm'].median(), inplace=True)] : Fills missing values with a specific value.
+[df['PetalLengthCm'].fillna(df['PetalLengthCm'].mode(), inplace=True)] : Fills missing values with a specific value.
+[from sklearn import preprocessing] : Imports specific machine learning modules from the scikit-learn library.
+[x=df[['SepalLengthCm','SepalWidthCm','PetalLengthCm','PetalWidthCm']]] : Assigns the value to the variable 'x'.
+[min_max_scaler=preprocessing.MinMaxScaler()] : Creates an object to scale data values between 0 and 1.
+[x_scaled=min_max_scaler.fit_transform(x)] : Learns the parameters and transforms the data simultaneously.
+[dataframe=pd.DataFrame(x_scaled)] : Assigns the value to the variable 'dataframe'.
+[print(dataframe)] : Prints the specified output.
+[label_encoder=preprocessing.LabelEncoder()] : Converts categorical text data into numerical labels.
+[df = pd.read_csv("Iris.csv")] : Reads the CSV dataset into a pandas DataFrame.
+[df['Species']=label_encoder.fit_transform(df['Species'])] : Learns the parameters and transforms the data simultaneously.
+[print(df['Species'])] : Prints the specified output.
+[print(df)] : Prints the specified output.
+[enc=preprocessing.OneHotEncoder()] : Creates separate binary columns for each categorical variable.
+[new_df=df.drop(columns=['Species'])] : Assigns the value to the variable 'new_df'.
+[enc_df=pd.DataFrame(enc.fit_transform(df[['Species']]).toarray())] : Learns the parameters and transforms the data simultaneously.
+[df_encode=new_df.join(enc_df)] : Assigns the value to the variable 'df_encode'.
+[df_encode] : Executes specific operation.

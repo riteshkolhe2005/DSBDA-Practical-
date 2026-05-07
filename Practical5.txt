@@ -1,0 +1,290 @@
+DSBDA Viva Preparation – Practical 5 (Logistic Regression)
+
+This PDF is prepared from your uploaded DSBDA Practical 5 notebook. The practical mainly focuses on Logistic Regression classification, model training, prediction, sigmoid function, and evaluation metrics.
+
+Topics Covered
+
+• Logistic Regression
+
+• Classification
+
+• Sigmoid Function
+
+• Supervised Learning
+
+• Train Test Split
+
+• Feature Scaling
+
+• Prediction
+
+• Confusion Matrix
+
+• Accuracy, Precision, Recall
+
+• Expected Viva Questions
+
+Important Functions Used
+
+Function Purpose
+
+pd.read_csv() Loads dataset into dataframe
+
+train_test_split() Splits dataset into train and test sets
+
+StandardScaler() Performs feature scaling
+
+fit_transform() Learns and transforms training data
+
+transform() Transforms testing data
+
+LogisticRegression() Creates logistic regression model
+
+fit() Trains the model
+
+predict() Predicts output labels
+
+accuracy_score() Calculates model accuracy
+
+confusion_matrix() Creates confusion matrix
+
+classification_report() Displays precision, recall, and F1-score
+
+Important Concepts
+
+What is Logistic Regression?
+
+Logistic Regression is a supervised learning classification algorithm used to predict categorical outputs.
+
+Why is it called Regression?
+
+It uses regression concepts mathematically but performs classification.
+
+Sigmoid Function
+
+Sigmoid function converts output values into probability values between 0 and 1.
+
+Binary Classification
+
+Logistic regression is commonly used for binary classification problems.
+
+Feature Scaling
+
+Feature scaling improves model performance and convergence.
+
+Confusion Matrix
+
+Confusion matrix evaluates prediction performance.
+
+Accuracy
+
+Accuracy is percentage of correct predictions.
+
+Precision
+
+Precision measures correctness among predicted positive values.
+
+Recall
+
+Recall measures correctly identified actual positive values.
+
+Sigmoid Function Formula
+
+Sigmoid Function:
+
+σ(z) = 1 / (1 + eII)
+
+Output range is between 0 and 1.
+
+Expected Viva Questions with Answers
+
+Q. What is Logistic Regression?
+
+Ans. Logistic Regression is a supervised classification algorithm.
+
+Q. What type of output does Logistic Regression predict?
+
+Ans. It predicts categorical outputs or classes.
+
+Q. What is sigmoid function?
+
+Ans. Sigmoid function converts values into probabilities between 0 and 1.
+
+Q. Why is feature scaling used?
+
+Ans. Feature scaling improves model training and performance.
+
+Q. What is binary classification?
+
+Ans. Binary classification has only two output classes.
+
+Q. What is confusion matrix?
+
+Ans. Confusion matrix evaluates classification performance.
+
+Q. What are TP, TN, FP, FN?
+
+Ans. True Positive, True Negative, False Positive, and False Negative.
+
+Q. What is precision?
+
+Ans. Precision measures correctness of predicted positives.
+
+Q. What is recall?
+
+Ans. Recall measures correctly predicted actual positives.
+
+Q. What is F1-score?
+
+Ans. F1-score balances precision and recall.
+
+Q. What does fit() do?
+
+Ans. fit() trains the logistic regression model.
+
+Q. What does predict() do?
+
+Ans. predict() predicts output labels.
+
+Q. Difference between Linear and Logistic Regression?
+
+Ans. Linear regression predicts continuous values while logistic regression predicts classes.
+
+Q. Can Logistic Regression solve multiclass problems?
+
+Ans. Yes, using one-vs-rest or multinomial approaches.
+
+Q. What is overfitting?
+
+Ans. Overfitting occurs when model memorizes training data.
+
+Important Tricky Viva Questions
+
+• Why is Logistic Regression called regression if it does classification?
+
+• Why is sigmoid function important?
+
+• Can logistic regression predict continuous values?
+
+• What happens if data is not scaled?
+
+• Difference between probability and class prediction?
+
+• Can logistic regression overfit?
+
+• What is decision boundary?
+
+• Why is logistic regression popular for binary classification?
+
+Quick Revision Notes
+
+• Logistic Regression is classification algorithm.
+
+• Uses sigmoid function.
+
+• Output ranges from 0 to 1.
+
+• Used mainly for binary classification.
+
+• Feature scaling improves performance.
+
+• fit() trains the model.
+
+• predict() predicts labels.
+
+• Confusion matrix evaluates predictions.
+
+========================================
+### PRACTICAL CODE ###
+========================================
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score
+df = pd.read_csv("Social_Network_Ads.csv")  # update path if needed
+df.head()
+X = df[['Age', 'EstimatedSalary']]
+y = df['Purchased']
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.25, random_state=0
+)
+sc = StandardScaler()
+X_train = sc.fit_transform(X_train)
+X_test = sc.transform(X_test)
+model = LogisticRegression()
+model.fit(X_train, y_train)
+y_pred = model.predict(X_test)
+cm = confusion_matrix(y_test, y_pred)
+print("Confusion Matrix:\n", cm)
+'''accuracy = accuracy_score(y_test, y_pred)
+error_rate = 1 - accuracy
+precision = precision_score(y_test, y_pred)
+recall = recall_score(y_test, y_pred)
+print("Accuracy:", accuracy)
+print("Error Rate:", error_rate)
+print("Precision:", precision)
+print("Recall:", recall)'''
+TN = cm[0][0]
+FP = cm[0][1]
+FN = cm[1][0]
+TP = cm[1][1]
+print("TP:", TP, "TN:", TN, "FP:", FP, "FN:", FN)
+accuracy = (TP + TN) / (TP + TN + FP + FN)
+error_rate = (FP + FN) / (TP + TN + FP + FN)
+precision = TP / (TP + FP)
+recall = TP / (TP + FN)
+print("Accuracy: {:.2f}".format(accuracy))
+print("Error Rate: {:.2f}".format(error_rate))
+print("Precision: {:.2f}".format(precision))
+print("Recall: {:.2f}".format(recall))
+
+========================================
+### CODE EXPLANATION ###
+========================================
+
+[import numpy as np] : Imports numpy library for numerical calculations.
+[import pandas as pd] : Imports pandas library for data manipulation and reading datasets.
+[import matplotlib.pyplot as plt] : Imports matplotlib library for data visualization.
+[import seaborn as sns] : Imports seaborn library for advanced data visualization.
+[from sklearn.model_selection import train_test_split] : Imports specific machine learning modules from the scikit-learn library.
+[from sklearn.preprocessing import StandardScaler] : Imports specific machine learning modules from the scikit-learn library.
+[from sklearn.linear_model import LogisticRegression] : Imports specific machine learning modules from the scikit-learn library.
+[from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score] : Imports specific machine learning modules from the scikit-learn library.
+[df = pd.read_csv("Social_Network_Ads.csv")  # update path if needed] : Reads the CSV dataset into a pandas DataFrame.
+[df.head()] : Displays the first 5 rows of the dataset.
+[X = df[['Age', 'EstimatedSalary']]] : Assigns the value to the variable 'X'.
+[y = df['Purchased']] : Assigns the value to the variable 'y'.
+[X_train, X_test, y_train, y_test = train_test_split( X, y, test_size=0.25, random_state=0 )] : Splits the dataset into training data and testing data.
+[sc = StandardScaler()] : Creates an object to standardize data to have a mean of 0 and standard deviation of 1.
+[X_train = sc.fit_transform(X_train)] : Learns the parameters and transforms the data simultaneously.
+[X_test = sc.transform(X_test)] : Applies the previously learned transformation to new data.
+[model = LogisticRegression()] : Initializes a Logistic Regression model.
+[model.fit(X_train, y_train)] : Trains the model using the provided training data.
+[y_pred = model.predict(X_test)] : Uses the trained model to make predictions on new data.
+[cm = confusion_matrix(y_test, y_pred)] : Calculates the confusion matrix to evaluate classification performance.
+[print("Confusion Matrix:\n", cm)] : Prints the specified output.
+[error_rate = 1 - accuracy] : Assigns the value to the variable 'error_rate'.
+[precision = precision_score(y_test, y_pred)] : Calculates the precision score.
+[recall = recall_score(y_test, y_pred)] : Calculates the recall score.
+[print("Accuracy:", accuracy)] : Prints the specified output.
+[print("Error Rate:", error_rate)] : Prints the specified output.
+[print("Precision:", precision)] : Prints the specified output.
+[print("Recall:", recall)'''] : Prints the specified output.
+[TN = cm[0][0]] : Assigns the value to the variable 'TN'.
+[FP = cm[0][1]] : Assigns the value to the variable 'FP'.
+[FN = cm[1][0]] : Assigns the value to the variable 'FN'.
+[TP = cm[1][1]] : Assigns the value to the variable 'TP'.
+[print("TP:", TP, "TN:", TN, "FP:", FP, "FN:", FN)] : Prints the specified output.
+[accuracy = (TP + TN) / (TP + TN + FP + FN)] : Assigns the value to the variable 'accuracy'.
+[error_rate = (FP + FN) / (TP + TN + FP + FN)] : Assigns the value to the variable 'error_rate'.
+[precision = TP / (TP + FP)] : Assigns the value to the variable 'precision'.
+[recall = TP / (TP + FN)] : Assigns the value to the variable 'recall'.
+[print("Accuracy: {:.2f}".format(accuracy))] : Prints the specified output.
+[print("Error Rate: {:.2f}".format(error_rate))] : Prints the specified output.
+[print("Precision: {:.2f}".format(precision))] : Prints the specified output.
+[print("Recall: {:.2f}".format(recall))] : Prints the specified output.

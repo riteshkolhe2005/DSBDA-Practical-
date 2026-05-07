@@ -1,0 +1,253 @@
+DSBDA Viva Preparation – Practical 9 (Data Visualization II)
+
+This PDF is prepared from your uploaded DSBDA Practical 9 notebook. The practical mainly focuses on advanced data visualization techniques, graph interpretation, and extracting analytical insights from visual data.
+
+Topics Covered
+
+• Advanced Data Visualization
+
+• Histogram
+
+• Scatter Plot
+
+• Box Plot
+
+• Heatmap
+
+• Pairplot
+
+• Distribution Plot
+
+• Correlation Analysis
+
+• Graph Interpretation
+
+• Expected Viva Questions
+
+Important Functions Used
+
+Function Purpose
+
+plt.hist() Creates histogram
+
+plt.scatter() Creates scatter plot
+
+sns.boxplot() Creates box plot
+
+sns.heatmap() Creates heatmap
+
+sns.pairplot() Shows pairwise relationships
+
+sns.histplot() Plots distribution histogram
+
+sns.distplot() Shows distribution curve
+
+plt.xlabel() Sets x-axis label
+
+plt.ylabel() Sets y-axis label
+
+plt.title() Adds graph title
+
+df.corr() Calculates correlation matrix
+
+Important Concepts
+
+What is Data Visualization?
+
+Data visualization graphically represents information for easier understanding.
+
+Histogram
+
+Histogram shows distribution and frequency of numerical data.
+
+Scatter Plot
+
+Scatter plot displays relationship between two numerical variables.
+
+Box Plot
+
+Box plot identifies spread, quartiles, and outliers.
+
+Heatmap
+
+Heatmap visually represents correlation using colors.
+
+Pairplot
+
+Pairplot shows pairwise relationships among features.
+
+Distribution Plot
+
+Distribution plot shows spread and shape of data.
+
+Correlation
+
+Correlation measures relationship strength between variables.
+
+Outliers
+
+Outliers are extreme values significantly different from other observations.
+
+Correlation Interpretation
+
+Correlation Value Interpretation
+
++1 Perfect positive relationship
+
+0 No relationship
+
+-1 Perfect negative relationship
+
+Expected Viva Questions with Answers
+
+Q. What is data visualization?
+
+Ans. Data visualization represents data graphically using charts and plots.
+
+Q. What is histogram?
+
+Ans. Histogram shows frequency distribution of data.
+
+Q. What is scatter plot?
+
+Ans. Scatter plot shows relationship between two variables.
+
+Q. What is heatmap?
+
+Ans. Heatmap visually displays correlations using colors.
+
+Q. What is box plot?
+
+Ans. Box plot displays quartiles, median, and outliers.
+
+Q. What are whiskers in box plot?
+
+Ans. Whiskers represent data range excluding outliers.
+
+Q. What is pairplot?
+
+Ans. Pairplot shows relationships between multiple variables.
+
+Q. What is correlation?
+
+Ans. Correlation measures relationship between variables.
+
+Q. What does df.corr() do?
+
+Ans. It calculates correlation values among numerical columns.
+
+Q. What are outliers?
+
+Ans. Outliers are abnormal extreme values.
+
+Q. Difference between histogram and distribution plot?
+
+Ans. Histogram shows frequency while distribution plot also shows density curve.
+
+Q. Why are labels and titles important?
+
+Ans. They improve graph readability and understanding.
+
+Q. What is skewness?
+
+Ans. Skewness measures asymmetry of distribution.
+
+Q. Why use pairplot?
+
+Ans. Pairplot helps analyze relationships between multiple variables.
+
+Q. Why is visualization important?
+
+Ans. Visualization helps identify patterns and trends quickly.
+
+Important Tricky Viva Questions
+
+• Difference between histogram and box plot?
+
+• Can correlation imply causation?
+
+• How are outliers detected in box plot?
+
+• What does positive skewness indicate?
+
+• Difference between heatmap and pairplot?
+
+• Why are distribution plots useful?
+
+• How do you identify strong correlation?
+
+• Why use seaborn instead of matplotlib sometimes?
+
+Quick Revision Notes
+
+• Histogram shows frequency distribution.
+
+• Scatter plot shows relationships.
+
+• Heatmap shows correlations.
+
+• Pairplot analyzes multiple relationships.
+
+• Box plot identifies outliers.
+
+• Correlation ranges from -1 to +1.
+
+• Distribution plots show data spread.
+
+• Visualization helps understand trends quickly.
+
+========================================
+### PRACTICAL CODE ###
+========================================
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+titanic = pd.read_csv("titanic.csv")
+titanic.head()
+sns.countplot(x='sex', hue='survived', data=titanic)
+plt.title("Survival Count by Gender")
+plt.show()
+print(titanic['age'].isnull().sum())
+sns.boxplot(x=titanic['age'])
+plt.title("Boxplot of Age")
+plt.show()
+sns.boxplot(x='sex', y='age', hue='survived', data=titanic)
+plt.title("Age vs Gender vs Survival")
+plt.show()
+Q1 = titanic['age'].quantile(0.25)
+Q3 = titanic['age'].quantile(0.75)
+IQR = Q3 - Q1
+lower = Q1 - 1.5 * IQR
+upper = Q3 + 1.5 * IQR
+outliers = titanic[(titanic['age'] < lower) | (titanic['age'] > upper)]
+print("Outliers in Age:\n")
+print(outliers[['age', 'sex', 'survived']])
+
+========================================
+### CODE EXPLANATION ###
+========================================
+
+[import pandas as pd] : Imports pandas library for data manipulation and reading datasets.
+[import matplotlib.pyplot as plt] : Imports matplotlib library for data visualization.
+[import seaborn as sns] : Imports seaborn library for advanced data visualization.
+[titanic = pd.read_csv("titanic.csv")] : Reads the CSV dataset into a pandas DataFrame.
+[titanic.head()] : Displays the first 5 rows of the dataset.
+[sns.countplot(x='sex', hue='survived', data=titanic)] : Creates a bar chart to show the count of observations.
+[plt.title("Survival Count by Gender")] : Adds a title to the plot.
+[plt.show()] : Displays the generated plot on the screen.
+[print(titanic['age'].isnull().sum())] : Checks for missing (null) values in the dataset.
+[sns.boxplot(x=titanic['age'])] : Creates a box plot to visualize data distribution and detect outliers.
+[plt.title("Boxplot of Age")] : Adds a title to the plot.
+[plt.show()] : Displays the generated plot on the screen.
+[sns.boxplot(x='sex', y='age', hue='survived', data=titanic)] : Creates a box plot to visualize data distribution and detect outliers.
+[plt.title("Age vs Gender vs Survival")] : Adds a title to the plot.
+[plt.show()] : Displays the generated plot on the screen.
+[Q1 = titanic['age'].quantile(0.25)] : Calculates the quantile used for finding outliers.
+[Q3 = titanic['age'].quantile(0.75)] : Calculates the quantile used for finding outliers.
+[IQR = Q3 - Q1] : Assigns the value to the variable 'IQR'.
+[lower = Q1 - 1.5 * IQR] : Assigns the value to the variable 'lower'.
+[upper = Q3 + 1.5 * IQR] : Assigns the value to the variable 'upper'.
+[outliers = titanic[(titanic['age'] < lower) | (titanic['age'] > upper)]] : Assigns the value to the variable 'outliers'.
+[print("Outliers in Age:\n")] : Prints the specified output.
+[print(outliers[['age', 'sex', 'survived']])] : Prints the specified output.

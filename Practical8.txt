@@ -1,0 +1,262 @@
+DSBDA Viva Preparation – Practical 8 (Data Visualization I)
+
+This PDF is prepared from your uploaded DSBDA Practical 8 notebook. The practical mainly focuses on Data Visualization techniques, graphs, charts, and extracting insights from datasets.
+
+Topics Covered
+
+• Data Visualization
+
+• Matplotlib
+
+• Seaborn
+
+• Histogram
+
+• Scatter Plot
+
+• Box Plot
+
+• Bar Plot
+
+• Line Graph
+
+• Heatmap
+
+• Expected Viva Questions
+
+Important Functions Used
+
+Function Purpose
+
+plt.plot() Creates line graph
+
+plt.scatter() Creates scatter plot
+
+plt.hist() Creates histogram
+
+sns.boxplot() Creates box plot
+
+sns.barplot() Creates bar graph
+
+sns.heatmap() Creates heatmap
+
+plt.xlabel() Sets x-axis label
+
+plt.ylabel() Sets y-axis label
+
+plt.title() Adds graph title
+
+plt.show() Displays graph
+
+df.corr() Calculates correlation matrix
+
+sns.pairplot() Shows pairwise relationships
+
+Important Concepts
+
+What is Data Visualization?
+
+Data visualization represents data graphically for better understanding.
+
+Histogram
+
+Histogram shows frequency distribution of numerical data.
+
+Scatter Plot
+
+Scatter plot shows relationship between two variables.
+
+Box Plot
+
+Box plot displays quartiles, median, spread, and outliers.
+
+Bar Plot
+
+Bar plot compares categorical values using bars.
+
+Line Graph
+
+Line graph shows trends over time or sequence.
+
+Heatmap
+
+Heatmap displays correlation values using color intensity.
+
+Correlation
+
+Correlation measures relationship between variables.
+
+Outliers
+
+Outliers are extreme values different from most data points.
+
+Correlation Range
+
+Correlation Value Meaning
+
++1 Perfect positive correlation
+
+0 No correlation
+
+-1 Perfect negative correlation
+
+Expected Viva Questions with Answers
+
+Q. What is data visualization?
+
+Ans. Data visualization graphically represents data.
+
+Q. What is matplotlib?
+
+Ans. Matplotlib is a Python library used for plotting graphs.
+
+Q. What is seaborn?
+
+Ans. Seaborn is a visualization library built on matplotlib.
+
+Q. What is histogram?
+
+Ans. Histogram shows frequency distribution.
+
+Q. What is scatter plot?
+
+Ans. Scatter plot shows relationship between two variables.
+
+Q. What is box plot?
+
+Ans. Box plot identifies spread and outliers.
+
+Q. What are whiskers in box plot?
+
+Ans. Whiskers show range of data excluding outliers.
+
+Q. What is heatmap?
+
+Ans. Heatmap visually displays correlation matrix.
+
+Q. What is correlation?
+
+Ans. Correlation measures relationship strength between variables.
+
+Q. What does df.corr() do?
+
+Ans. It calculates correlation between numerical columns.
+
+Q. Why use visualization?
+
+Ans. Visualization helps understand patterns and trends easily.
+
+Q. Difference between histogram and bar plot?
+
+Ans. Histogram is for numerical data while bar plot is for categorical data.
+
+Q. What is pairplot?
+
+Ans. Pairplot shows relationships among multiple variables.
+
+Q. What are outliers?
+
+Ans. Outliers are abnormal extreme values.
+
+Q. Why use plt.show()?
+
+Ans. plt.show() displays graphs.
+
+Important Tricky Viva Questions
+
+• Difference between histogram and box plot?
+
+• Can correlation imply causation?
+
+• Why use seaborn over matplotlib sometimes?
+
+• How are outliers identified in box plot?
+
+• What does positive skewness mean?
+
+• Why is heatmap useful?
+
+• Difference between line plot and scatter plot?
+
+• Why are labels and titles important in graphs?
+
+Quick Revision Notes
+
+• Histogram shows frequency distribution.
+
+• Scatter plot shows relationships.
+
+• Box plot identifies outliers.
+
+• Heatmap displays correlations.
+
+• Bar plot compares categories.
+
+• Line graph shows trends.
+
+• Correlation ranges from -1 to +1.
+
+• Visualization helps understand data quickly.
+
+========================================
+### PRACTICAL CODE ###
+========================================
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+titanic = pd.read_csv("titanic.csv")   # use your file path
+titanic.head()
+sns.countplot(x='survived', data=titanic)
+plt.title("Survival Count")
+plt.show()
+# It shows:
+# how many passengers survived
+# how many did not survive
+sns.countplot(x='sex', hue='survived', data=titanic)
+plt.title("Survival by Gender")
+plt.show()
+sns.countplot(x='pclass', hue='survived', data=titanic)
+plt.title("Survival by Class")
+plt.show()
+# 🔹 4. Histogram for Fare Distribution
+sns.histplot(titanic['fare'], bins=30, kde=True)
+plt.title("Fare Distribution")
+plt.xlabel("Fare")
+plt.ylabel("Frequency")
+plt.show()
+# A histogram is a graph used to show the distribution of numerical data.
+skew_value = titanic['fare'].skew()
+print("Skewness of Fare:", skew_value)
+print("Mean Fare:", titanic['fare'].mean())
+print("Median Fare:", titanic['fare'].median())
+titanic['fare'].describe()
+
+========================================
+### CODE EXPLANATION ###
+========================================
+
+[import pandas as pd] : Imports pandas library for data manipulation and reading datasets.
+[import matplotlib.pyplot as plt] : Imports matplotlib library for data visualization.
+[import seaborn as sns] : Imports seaborn library for advanced data visualization.
+[titanic = pd.read_csv("titanic.csv")   # use your file path] : Reads the CSV dataset into a pandas DataFrame.
+[titanic.head()] : Displays the first 5 rows of the dataset.
+[sns.countplot(x='survived', data=titanic)] : Creates a bar chart to show the count of observations.
+[plt.title("Survival Count")] : Adds a title to the plot.
+[plt.show()] : Displays the generated plot on the screen.
+[sns.countplot(x='sex', hue='survived', data=titanic)] : Creates a bar chart to show the count of observations.
+[plt.title("Survival by Gender")] : Adds a title to the plot.
+[plt.show()] : Displays the generated plot on the screen.
+[sns.countplot(x='pclass', hue='survived', data=titanic)] : Creates a bar chart to show the count of observations.
+[plt.title("Survival by Class")] : Adds a title to the plot.
+[plt.show()] : Displays the generated plot on the screen.
+[sns.histplot(titanic['fare'], bins=30, kde=True)] : Creates a histogram to visualize the distribution of numerical data.
+[plt.title("Fare Distribution")] : Adds a title to the plot.
+[plt.xlabel("Fare")] : Executes specific operation.
+[plt.ylabel("Frequency")] : Executes specific operation.
+[plt.show()] : Displays the generated plot on the screen.
+[skew_value = titanic['fare'].skew()] : Calculates the skewness of the data distribution.
+[print("Skewness of Fare:", skew_value)] : Prints the specified output.
+[print("Mean Fare:", titanic['fare'].mean())] : Prints the specified output.
+[print("Median Fare:", titanic['fare'].median())] : Prints the specified output.
+[titanic['fare'].describe()] : Generates a statistical summary of the dataset (mean, std, min, max, etc.).

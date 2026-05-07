@@ -1,0 +1,287 @@
+DSBDA Viva Preparation – Practical 2
+
+This viva preparation material is based on your uploaded DSBDA Practical 2 notebook. The practical focuses on data visualization, graphs, plots, and extracting insights from datasets.
+
+Topics Covered
+
+• Matplotlib basics
+
+• Seaborn basics
+
+• Histogram
+
+• Scatter Plot
+
+• Box Plot
+
+• Heatmap
+
+• Distribution Plot
+
+• Correlation
+
+• Data visualization concepts
+
+• Expected viva questions
+
+Important Functions Used
+
+Function Purpose
+
+plt.plot() Creates line graph
+
+plt.scatter() Creates scatter plot
+
+plt.hist() Creates histogram
+
+sns.boxplot() Creates box plot
+
+sns.heatmap() Creates heatmap
+
+plt.xlabel() Sets x-axis label
+
+plt.ylabel() Sets y-axis label
+
+plt.title() Adds graph title
+
+plt.show() Displays graph
+
+df.corr() Calculates correlation
+
+sns.pairplot() Shows pairwise relationships
+
+sns.distplot()/histplot() Shows distribution of data
+
+Important Concepts
+
+What is Data Visualization?
+
+Data visualization is the graphical representation of data using plots and charts.
+
+Histogram
+
+Histogram shows frequency distribution of numerical data.
+
+Scatter Plot
+
+Scatter plot shows relationship between two numerical variables.
+
+Box Plot
+
+Box plot shows median, quartiles, spread, and outliers of data.
+
+Heatmap
+
+Heatmap visually represents correlation values using colors.
+
+Correlation
+
+Correlation measures relationship strength between variables.
+
+Positive Correlation
+
+When one variable increases and another also increases.
+
+Negative Correlation
+
+When one variable increases while another decreases.
+
+Outliers
+
+Outliers are extreme values different from most observations.
+
+Correlation Value Range
+
+Correlation Value Meaning
+
++1 Perfect positive correlation
+
+0 No correlation
+
+-1 Perfect negative correlation
+
+Expected Viva Questions with Answers
+
+Q. What is matplotlib?
+
+Ans. Matplotlib is a Python library used for plotting graphs and charts.
+
+Q. What is seaborn?
+
+Ans. Seaborn is a visualization library built on top of matplotlib.
+
+Q. Why do we use visualization?
+
+Ans. Visualization helps understand patterns, trends, and relationships in data.
+
+Q. What is histogram used for?
+
+Ans. It is used to show frequency distribution.
+
+Q. What does scatter plot show?
+
+Ans. It shows relationship between two variables.
+
+Q. What is correlation?
+
+Ans. Correlation measures strength and direction of relationship between variables.
+
+Q. What is a heatmap?
+
+Ans. Heatmap displays correlation values using colors.
+
+Q. What are outliers?
+
+Ans. Outliers are abnormal or extreme data values.
+
+Q. What is median in box plot?
+
+Ans. Median is the middle value represented by a line inside the box.
+
+Q. What are whiskers in box plot?
+
+Ans. Whiskers show spread/range of data excluding outliers.
+
+Q. Difference between countplot and histogram?
+
+Ans. Countplot is for categorical data while histogram is for numerical data.
+
+Q. Why use plt.show()?
+
+Ans. It displays the generated graph.
+
+Q. What does df.corr() do?
+
+Ans. It calculates correlation between numerical columns.
+
+Q. What is pairplot?
+
+Ans. Pairplot shows pairwise relationships among variables.
+
+Q. What is the use of title and labels?
+
+Ans. They improve graph readability.
+
+Important Tricky Viva Questions
+
+• Why are outliers important?
+
+• Can correlation imply causation?
+
+• Why is seaborn preferred over matplotlib sometimes?
+
+• Which graph is best for categorical data?
+
+• What happens if data is highly skewed?
+
+• Difference between box plot and histogram?
+
+• How to identify skewness from graph?
+
+• What is multicollinearity?
+
+Quick Revision Notes
+
+• Histogram shows frequency distribution.
+
+• Scatter plot shows relationships.
+
+• Heatmap shows correlations using colors.
+
+• Box plot helps identify outliers.
+
+• Correlation ranges from -1 to +1.
+
+• Seaborn provides better visual appearance.
+
+• Matplotlib is base plotting library.
+
+• Whiskers represent data spread.
+
+========================================
+### PRACTICAL CODE ###
+========================================
+
+import pandas as pd
+import numpy as np
+from sklearn.preprocessing import MinMaxScaler, StandardScaler
+from scipy import stats
+#2. Load academic dataset
+df = pd.read_csv("StudentsPerformance.csv")
+df
+df.columns
+print(df.isnull().sum())
+# Fill missing numerical values with mean
+df.fillna(df.mean(numeric_only=True), inplace=True)
+# Remove duplicate rows
+df.drop_duplicates(inplace=True)
+# Standardize column names
+df.columns = df.columns.str.strip()
+# 4. Describe dataset
+print(df.head())
+print(df.shape)
+print(df.columns)
+df.describe()
+# 5. Identify outliers using IQR method
+# Select numerical columns
+numeric_cols = df.select_dtypes(include=[np.number])
+Q1 = numeric_cols.quantile(0.25)
+Q3 = numeric_cols.quantile(0.75)
+IQR = Q3 - Q1
+outliers = ((numeric_cols < (Q1 - 1.5 * IQR)) |
+            (numeric_cols > (Q3 + 1.5 * IQR)))
+print("Outliers using IQR:")
+print(outliers.sum())
+# 6. Identify outliers using Z-score method
+z_scores = np.abs(stats.zscore(numeric_cols))
+print("Outliers using Z-score:")
+print((z_scores > 3).sum(axis=0))
+# 7. Apply data transformation
+# Log transformation
+df_log = numeric_cols.apply(lambda x: np.log1p(x))
+# Normalization using Min-Max Scaling
+scaler = MinMaxScaler()
+df_normalized = pd.DataFrame(scaler.fit_transform(numeric_cols),
+                             columns=numeric_cols.columns)
+# 8. Display transformed data
+print("Log Transformed Data:")
+print(df_log.head())
+print("Normalized Data:")
+print(df_normalized.head())
+
+========================================
+### CODE EXPLANATION ###
+========================================
+
+[import pandas as pd] : Imports pandas library for data manipulation and reading datasets.
+[import numpy as np] : Imports numpy library for numerical calculations.
+[from sklearn.preprocessing import MinMaxScaler, StandardScaler] : Imports specific machine learning modules from the scikit-learn library.
+[from scipy import stats] : Executes specific operation.
+[df = pd.read_csv("StudentsPerformance.csv")] : Reads the CSV dataset into a pandas DataFrame.
+[df] : Executes specific operation.
+[df.columns] : Returns the column names of the dataset.
+[print(df.isnull().sum())] : Checks for missing (null) values in the dataset.
+[df.fillna(df.mean(numeric_only=True), inplace=True)] : Fills missing values with a specific value.
+[df.drop_duplicates(inplace=True)] : Assigns the value to the variable 'df.drop_duplicates(inplace'.
+[df.columns = df.columns.str.strip()] : Returns the column names of the dataset.
+[print(df.head())] : Displays the first 5 rows of the dataset.
+[print(df.shape)] : Returns the dimensions (number of rows and columns) of the dataset.
+[print(df.columns)] : Returns the column names of the dataset.
+[df.describe()] : Generates a statistical summary of the dataset (mean, std, min, max, etc.).
+[numeric_cols = df.select_dtypes(include=[np.number])] : Assigns the value to the variable 'numeric_cols'.
+[Q1 = numeric_cols.quantile(0.25)] : Calculates the quantile used for finding outliers.
+[Q3 = numeric_cols.quantile(0.75)] : Calculates the quantile used for finding outliers.
+[IQR = Q3 - Q1] : Assigns the value to the variable 'IQR'.
+[outliers = ((numeric_cols < (Q1 - 1.5 * IQR)) | (numeric_cols > (Q3 + 1.5 * IQR)))] : Assigns the value to the variable 'outliers'.
+[print("Outliers using IQR:")] : Prints the specified output.
+[print(outliers.sum())] : Prints the specified output.
+[z_scores = np.abs(stats.zscore(numeric_cols))] : Assigns the value to the variable 'z_scores'.
+[print("Outliers using Z-score:")] : Prints the specified output.
+[print((z_scores > 3).sum(axis=0))] : Assigns the value to the variable 'print((z_scores > 3).sum(axis'.
+[df_log = numeric_cols.apply(lambda x: np.log1p(x))] : Assigns the value to the variable 'df_log'.
+[scaler = MinMaxScaler()] : Creates an object to scale data values between 0 and 1.
+[df_normalized = pd.DataFrame(scaler.fit_transform(numeric_cols), columns=numeric_cols.columns)] : Returns the column names of the dataset.
+[print("Log Transformed Data:")] : Prints the specified output.
+[print(df_log.head())] : Displays the first 5 rows of the dataset.
+[print("Normalized Data:")] : Prints the specified output.
+[print(df_normalized.head())] : Displays the first 5 rows of the dataset.
